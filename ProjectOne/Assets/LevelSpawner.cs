@@ -7,36 +7,66 @@ public class LevelSpawner : MonoBehaviour
   public static LevelSpawner main;
 
   public GameObject forwardTilePrefab;
-  public Vector3 rotation;
+  public GameObject leftTurnPrefab;
+  public GameObject rightTurnPrefab;
+  public GameObject jumpObstaclePrefab;
+  public GameObject crouchObstaclePrefab;
+
+  public Vector3 rotation = new Vector3();
+
+  public bool spawnLeftTurn;
 
   private Transform nextSpawnLocation = null;
 
   private void Start()
   {
     main = this;
-    for (int i = 0; i < 5; i ++)
+
+    // make the starting section
+    GameObject newSection = Instantiate(forwardTilePrefab, new Vector3(0, -1, 0), Quaternion.identity, this.transform);
+    nextSpawnLocation = newSection.transform.Find("EndPoint").transform;
+
+    // make other sections
+    for (int i = 0; i < 10; i ++)
       SpawnNextTile();
   }
 
-  private void Update()
-  {
-    if (Input.GetKeyDown(KeyCode.Space))
-      SpawnNextTile();
-  }
 
-  private void SpawnNextTile()
+
+  public void SpawnNextTile()
   {
     GameObject newSection;
-    if (nextSpawnLocation == null)
+    int randomChoice = Random.Range(0, 100);
+
+    if (randomChoice < 80)
     {
-      newSection = Instantiate(forwardTilePrefab, new Vector3(0, -1, 0), Quaternion.identity, this.transform);
+      newSection = Instantiate(forwardTilePrefab, nextSpawnLocation.position, Quaternion.Euler(rotation), this.transform);
+    }
+    else if (randomChoice < 90)
+    {
+      newSection = Instantiate(leftTurnPrefab, nextSpawnLocation.position, Quaternion.Euler(rotation), this.transform);
+      UpdateRotation(Vector3.left);
     }
     else
     {
-      newSection = Instantiate(forwardTilePrefab, nextSpawnLocation.position, Quaternion.identity, this.transform);
+      newSection = Instantiate(rightTurnPrefab, nextSpawnLocation.position, Quaternion.Euler(rotation), this.transform);
+      UpdateRotation(Vector3.right);
     }
 
     nextSpawnLocation = newSection.transform.Find("EndPoint").transform;
 
+  }
+
+  private void UpdateRotation(Vector3 direction)
+  {
+    // update the rotation direction
+    if (direction == Vector3.right)
+    {
+      rotation += new Vector3(0, 90, 0);
+    }
+    else
+    {
+      rotation += new Vector3(0, -90, 0);
+    }
   }
 }
