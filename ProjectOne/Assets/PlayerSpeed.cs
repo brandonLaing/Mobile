@@ -5,18 +5,31 @@ using UnityEngine;
 public class PlayerSpeed : MonoBehaviour
 {
   public static PlayerSpeed main;
-  public float playerSpeed;
+  private float _playerSpeed = 5;
   public float playerSpeedIncreasePerSecond = 5F;
+  public float maxPlayerSpeed = 25;
+  public float PlayerSpeedProperty
+  {
+    get { return _playerSpeed; }
+    set
+    {
+      if (value > maxPlayerSpeed)
+        _playerSpeed = maxPlayerSpeed;
+      else
+        _playerSpeed = value;
+    }
+  }
+
+  public float playerSpeedMirror;
 
   private void Start()
   {
     main = this;
-    InvokeRepeating("IncreaseSpeed", 0, 1);
-
   }
 
-  private void IncreaseSpeed()
+  private void FixedUpdate()
   {
-    playerSpeedIncreasePerSecond = 5;
+    PlayerSpeedProperty += playerSpeedIncreasePerSecond * Time.fixedDeltaTime;
+    playerSpeedMirror = PlayerSpeedProperty;
   }
 }

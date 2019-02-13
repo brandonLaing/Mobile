@@ -5,15 +5,29 @@ using UnityEngine;
 public class PlayerScore : MonoBehaviour
 {
   public PlayerScore main;
-  public bool trackScore = false;
+  public float score;
 
   private void Start()
   {
     main = this;
+    if (PlayerPrefs.HasKey("PlayerScore"))
+    {
+      score = PlayerPrefs.GetFloat("PlayerScore");
+    }
+    else
+    {
+      PlayerPrefs.SetFloat("PlayerScore", 0);
+    }
   }
 
-  private void Update()
+  private void FixedUpdate()
   {
-    
+    score += PlayerSpeed.main.PlayerSpeedProperty * Time.fixedDeltaTime;
+  }
+
+  private void OnDestroy()
+  {
+    Debug.Log("Setting score");
+    PlayerPrefs.SetFloat("PlayerScore", score);
   }
 }

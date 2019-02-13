@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class SectionController : MonoBehaviour
 {
-  public float moveSpeed;
-
   private void FixedUpdate()
   {
-    transform.position -= PlayerTurn.main.moveDirection * PlayerSpeed.main.playerSpeed * Time.fixedDeltaTime;
+    transform.position -= PlayerTurn.main.moveDirection * PlayerSpeed.main.PlayerSpeedProperty * Time.fixedDeltaTime;
   }
 }
