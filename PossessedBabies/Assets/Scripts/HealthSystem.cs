@@ -24,9 +24,12 @@ public class HealthSystem : MonoBehaviour
     }
   }
 
+  public void Heal(float health) => Health += health;
+
+  public void Damage(float damage) => Health -= damage;
 
   public void Die()
   {
-
+    throw new System.NotImplementedException("Implement death");
   }
 }
