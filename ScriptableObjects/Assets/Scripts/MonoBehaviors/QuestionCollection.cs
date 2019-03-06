@@ -26,7 +26,9 @@ public class QuestionCollection : MonoBehaviour
       .OrderBy(t => Random.Range(0, int.MaxValue))
       .FirstOrDefault();
 
-    Debug.Log(allQuestions.Length);
+    if (question == null)
+      ResetQuestions();
+
     question.Asked = true;
     return question;
   }
@@ -34,11 +36,13 @@ public class QuestionCollection : MonoBehaviour
   void ResetQuestionsIfAllHaveBeenAsked()
   {
     if (allQuestions.Any(t => t.Asked == false) == false)
-      ResetQuestionsIfAllHaveBeenAsked();
+      ResetQuestions();
   }
 
   void ResetQuestions()
   {
+    Debug.Log("Checking for asked question");
+
     foreach (QuizQuestion question in allQuestions)
       question.Asked = false;
   }

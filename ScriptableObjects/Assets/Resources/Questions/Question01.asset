@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de7e68d438994794c8f9101e6b7b193e, type: 3}
   m_Name: Question01
   m_EditorClassIdentifier: 
-  _question: Question 2
-  anwser:
-  - adsfaf
-  - zxcv
-  - qwerq
-  - io[p[i
+  useXML: 1
+  _question: Who love penut butter
+  _anwser:
+  - 76
+  - Tracer
+  - Winston
+  - Bastion
   _correctAnwser: 3

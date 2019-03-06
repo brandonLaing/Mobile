@@ -14,7 +14,7 @@ public class UIController : MonoBehaviour
   public void SetupUIForQuestion(QuizQuestion question)
   {
     correctAnwserPopup.SetActive(false);
-    correctAnwserPopup.SetActive(false);
+    wrongAnwserPopup.SetActive(false);
 
     questionText.text = question.Question;
 
