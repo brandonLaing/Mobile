@@ -1,0 +1,20 @@
+<SampleXML>
+	<Colors>
+		<Color1>White</Color1>
+		<Color2>Yellow</Color2>
+		<Color3>Green</Color3>
+		<Color4>Blue</Color4>
+	</Colors>
+	<Colors>
+		<Color1>Green</Color1>
+		<Color2>Purple</Color2>
+		<Color3>Orange</Color3>
+		<Color4>Red</Color4>
+	</Colors>
+	<Colors>
+		<Color1>White</Color1>
+		<Color2>White</Color2>
+		<Color3>White</Color3>
+		<Color4>White</Color4>
+	</Colors>
+</SampleXML>

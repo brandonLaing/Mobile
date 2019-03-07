@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Question01
   m_EditorClassIdentifier: 
   useXML: 1
-  _question: Who love penut butter
+  _question: Who love peanut butter
   _anwser:
   - 76
   - Tracer
   - Winston
   - Bastion
-  _correctAnwser: 3
+  _correctAnwser: 2

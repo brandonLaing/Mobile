@@ -1,15 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
-using System.Xml.Serialization;
 using System;
 
 [CreateAssetMenu]
 public class QuizQuestion : ScriptableObject
 {
-  public bool useXML = true;
-
   [SerializeField]
   private string _question;
 
@@ -19,27 +15,15 @@ public class QuizQuestion : ScriptableObject
   [SerializeField]
   private int _correctAnwser;
 
-  private void Awake()
-  {
-    if (useXML)
-    {
-      if (!File.Exists("Questions.xml"))
-      {
-        WriteSameQuestionToXml();
-      }
-    }
-  }
-
-  private void WriteSameQuestionToXml()
-  {
-
-  }
-
   public string Question
   {
     get
     {
       return _question;
+    }
+    set
+    {
+      _question = value;
     }
   }
 
@@ -49,6 +33,10 @@ public class QuizQuestion : ScriptableObject
     {
       return _correctAnwser;
     }
+    set
+    {
+      _correctAnwser = value;
+    }
   }
 
   public string[] Anwsers
@@ -57,13 +45,16 @@ public class QuizQuestion : ScriptableObject
     {
       return _anwser;
     }
+    set
+    {
+      _anwser = value;
+    }
   }
 
   public bool Asked
   {
     get;
-    internal set;
+    set;
   }
-
 }
 
