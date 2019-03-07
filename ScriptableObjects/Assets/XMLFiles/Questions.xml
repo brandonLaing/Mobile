@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfQuizQuestion xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <QuizQuestion>
+    <name />
+    <hideFlags>None</hideFlags>
+    <Question>If it's noon in Boston, what time is it in new York?</Question>
+    <CorrectAnwser>2</CorrectAnwser>
+    <Anwsers>
+      <string>1PM</string>
+      <string>2PM</string>
+      <string>Noon</string>
+      <string>11AM</string>
+    </Anwsers>
+    <Asked>false</Asked>
+  </QuizQuestion>
+  <QuizQuestion>
+    <name />
+    <hideFlags>None</hideFlags>
+    <Question>What type of amimal was babe</Question>
+    <CorrectAnwser>3</CorrectAnwser>
+    <Anwsers>
+      <string>Donkey</string>
+      <string>Spider</string>
+      <string>Pig</string>
+      <string>Lamb</string>
+    </Anwsers>
+    <Asked>false</Asked>
+  </QuizQuestion>
+</ArrayOfQuizQuestion>
