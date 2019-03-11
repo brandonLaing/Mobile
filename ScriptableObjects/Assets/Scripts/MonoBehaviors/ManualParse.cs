@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Xml;
 using UnityEngine;
 using System.Text;
+using System;
 
 public class ManualParse : MonoBehaviour
 {
@@ -83,7 +84,6 @@ public class ManualParse : MonoBehaviour
     /**
      *
      */
-    int UsCDS = 0, UkCDS = 0, EuCDS = 0;
     StringBuilder sb = new StringBuilder();
     XmlNode rootNode = xmlDoc.SelectSingleNode("CATALOG");
 
@@ -95,12 +95,12 @@ public class ManualParse : MonoBehaviour
       // Get all the nodes in a cd
       foreach (XmlNode cdInfoNode in cdNode.SelectNodes("PRICE"))
       {
-          float price; float.TryParse(cdInfoNode.InnerText, out price);
+        float price; float.TryParse(cdInfoNode.InnerText, out price);
 
-          if (price < 9.00F)
-          {
-            lessThanNineDollars++;
-          }
+        if (price < 9.00F)
+        {
+          lessThanNineDollars++;
+        }
       }
     }
     #endregion
@@ -122,62 +122,95 @@ public class ManualParse : MonoBehaviour
     #endregion
 
     #region How many CDs in US, EU, UK
+    int UsCDS = 0, UkCDS = 0, EuCDS = 0;
+    foreach (XmlNode cdNode in rootNode.SelectNodes("CD"))
+    {
+      foreach (XmlNode countryNode in cdNode.SelectNodes("COUNTRY"))
+      {
+        if (countryNode.InnerText == "USA")
+          UsCDS++;
+        if (countryNode.InnerText == "UK")
+          UkCDS++;
+        if (countryNode.InnerText == "EU")
+          EuCDS++;
+      }
+    }
     #endregion
 
     #region Country with heighest average CD Cost
+    List<float> ukPrices = new List<float>(), usPrices = new List<float>(), euPrices = new List<float>();
+    float ukAverage = 0, usAverage = 0, euAverage = 0;
+
+    foreach (XmlNode cdNode in rootNode.ChildNodes)
+    {
+      float currentPrice; float.TryParse(cdNode.SelectSingleNode("PRICE").InnerText, out currentPrice);
+      string country = cdNode.SelectSingleNode("COUNTRY").InnerText;
+
+      switch (country)
+      {
+        case "UK":
+          ukPrices.Add(currentPrice);
+          break;
+        case "USA":
+          usPrices.Add(currentPrice);
+          break;
+        case "EU":
+          euPrices.Add(currentPrice);
+          break;
+      }
+    }
+
+    ukAverage = GetAverage(ukPrices);
+    usAverage = GetAverage(usPrices);
+    euAverage = GetAverage(euPrices);
     #endregion
 
     #region Print names of cds that were released after 1990 and more than 9.00
+    List<string> cdsAfter1990LessThan9 = new List<string>();
+    foreach (XmlNode cdNode in rootNode.ChildNodes)
+    {
+      int date; int.TryParse(cdNode.SelectSingleNode("YEAR").InnerText, out date);
+      if (date > 1990)
+      {
+        float price; float.TryParse(cdNode.SelectSingleNode("PRICE").InnerText, out price);
+        if (price > 9.00)
+        {
+          cdsAfter1990LessThan9.Add(cdNode.SelectSingleNode("TITLE").InnerText);
+        }
+      }
+    }
     #endregion
 
     #region Names of CDS that were released before 1980 or from polydor company
-    #endregion
-
     foreach (XmlNode node in xmlDoc.SelectSingleNode("CATALOG").SelectNodes("CD"))
     {
-      CDInfo newCD = new CDInfo();
-      foreach (XmlNode nodeInfo in node.ChildNodes)
-      {
-        if (nodeInfo.Name == "TITLE")
-        {
-          newCD.title = nodeInfo.InnerText;
-        }
-        if (nodeInfo.Name == "ARTIST")
-        {
-          newCD.artist = nodeInfo.InnerText;
-
-        }
-        if (nodeInfo.Name == "COUNTRY")
-        {
-          newCD.country = nodeInfo.InnerText;
-
-          if (nodeInfo.InnerText == "USA")
-            UsCDS++;
-          if (nodeInfo.InnerText == "UK")
-            UkCDS++;
-          if (nodeInfo.InnerText == "EU")
-            EuCDS++;
-        }
-        if (nodeInfo.Name == "COMPANY")
-        {
-          newCD.company = nodeInfo.InnerText;
-        }
-        if (nodeInfo.Name == "PRICE")
-        {
-          float price; float.TryParse(nodeInfo.InnerText, out price);
-
-          newCD.price = price;
-        }
-        if (nodeInfo.Name == "YEAR")
-        {
-          int year; int.TryParse(nodeInfo.InnerText, out year);
-          newCD.year = year;
-        }
-      }
+      CDInfo newCD = new CDInfo(node);
 
       cds.Add(newCD);
     }
 
+    List<string> before1980OrPolydor = new List<string>();
+    foreach (CDInfo cd in cds)
+    {
+      if (cd.year < 1980 || cd.company.ToLower() == "polydor".ToLower())
+      {
+        before1980OrPolydor.Add(cd.title);
+      }
+    }
+    #endregion
+
+
+
+    BuildStringBuilder(sb, lessThanNineDollars, cdsAfter1990, UsCDS, UkCDS, EuCDS, 
+      ukAverage, usAverage, euAverage, cdsAfter1990LessThan9, before1980OrPolydor);
+
+    Debug.Log(sb);
+  }
+
+  private static void BuildStringBuilder(StringBuilder sb, int lessThanNineDollars, 
+    List<string> cdsAfter1990, int UsCDS, int UkCDS, int EuCDS, float ukAverage, float usAverage, float euAverage, 
+    List<string> cdsAfter1990LessThan9, List<string> before1980OrPolydor)
+  {
     sb.AppendLine($"Number of CD released for less than $9.00: {lessThanNineDollars}");
     sb.AppendLine();
 
@@ -189,13 +222,41 @@ public class ManualParse : MonoBehaviour
     sb.AppendLine();
 
     sb.AppendLine($"CDs by country then count");
-      sb.AppendLine($"\tUS: {UsCDS}");
-      sb.AppendLine($"\tUK: {UkCDS}");
-      sb.AppendLine($"\tEU: {EuCDS}");
+    sb.AppendLine($"\tUS: {UsCDS}");
+    sb.AppendLine($"\tUK: {UkCDS}");
+    sb.AppendLine($"\tEU: {EuCDS}");
     sb.AppendLine();
 
+    sb.AppendLine("Average CD price by coutry");
+    sb.AppendLine($"\tUK: ${Math.Round(ukAverage, 2)}");
+    sb.AppendLine($"\tUS: ${Math.Round(usAverage, 2)}");
+    sb.AppendLine($"\tEU: ${Math.Round(euAverage, 2)}");
+    sb.AppendLine();
 
-    Debug.Log(sb);
+    sb.AppendLine("CDs that were released after 1990 for more than $9");
+    foreach (string name in cdsAfter1990LessThan9)
+    {
+      sb.AppendLine($"\t{name}");
+    }
+    sb.AppendLine();
+
+    sb.AppendLine("CDs that were released before 1980 or from Polydor");
+    foreach (string title in before1980OrPolydor)
+    {
+      sb.AppendLine($"\t{title}");
+    }
+    sb.AppendLine();
+
+    sb.AppendLine("Thats it");
+  }
+
+  private static float GetAverage(List<float> ukPrices)
+  {
+    float temp = 0;
+    foreach (float price in ukPrices)
+      temp += price;
+
+    return temp / (float)ukPrices.Count; ;
   }
 }
 
@@ -208,5 +269,15 @@ public class CDInfo
   public string company;
   public float price;
   public int year;
+
+  public CDInfo(XmlNode xmlNode)
+  {
+    title = xmlNode.SelectSingleNode("TITLE").InnerText;
+    artist = xmlNode.SelectSingleNode("ARTIST").InnerText;
+    country = xmlNode.SelectSingleNode("COUNTRY").InnerText;
+    company = xmlNode.SelectSingleNode("COMPANY").InnerText;
+    float.TryParse(xmlNode.SelectSingleNode("PRICE").InnerText, out price);
+    int.TryParse(xmlNode.SelectSingleNode("YEAR").InnerText, out year);
+  }
 }
 
