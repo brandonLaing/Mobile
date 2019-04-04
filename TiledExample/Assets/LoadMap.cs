@@ -27,25 +27,13 @@ public class LoadMap : MonoBehaviour
     int tileWidth = int.Parse(mapNode.Attributes["tilewidth"].Value);
     int tileHeight = int.Parse(mapNode.Attributes["tileheight"].Value);
 
-    string imageName = mapNode.SelectSingleNode("tileset/image").Attributes["source"].Value;
+    string[] splitImageName = mapNode.SelectSingleNode("tileset/image").Attributes["source"].Value.Split('/');
+    string imageName = imageName = splitImageName[splitImageName.Length - 1].Split('.')[0]; ;
+    
 
     Debug.Log($"Map Width: {mapWidth}\nMap Height: {mapHeight}\nTileWidth: {tileWidth}\nTileHeight: {tileHeight}\nImageName: {imageName}");
 
-    sprites = Resources.LoadAll<Sprite>(imageName.Split('.')[0]);
-
-
-    /** First Example
-    int firstSprite = int.Parse(mapNode.SelectSingleNode("layer/data").InnerText.Split(',')[0]);
-
-    Debug.LogWarning(firstSprite);
-
-    Sprite firstSpriteImage = sprites[firstSprite];
-
-    GameObject spriteObject = new GameObject("tileOne", typeof(SpriteRenderer));
-    spriteObject.GetComponent<SpriteRenderer>().sprite = sprites[firstSprite - 1];
-  */
-
-    //BuildLayer(mapNode, mapWidth, mapHeight, tileWidth, "FirstLayer");
+    sprites = Resources.LoadAll<Sprite>(imageName);
 
     XmlNodeList allLayers = mapNode.SelectNodes("layer");
 
@@ -53,6 +41,8 @@ public class LoadMap : MonoBehaviour
     {
       BuildLayer(layer, mapWidth, mapHeight, tileWidth, layer.Attributes["name"].Value);
     }
+
+    BuildObjectLayer(mapNode.SelectSingleNode("objectgroup"), tileWidth);
 
   }
 
@@ -75,15 +65,63 @@ public class LoadMap : MonoBehaviour
         int currentSprite = int.Parse(mapGrid[currentTile]);
         if (currentSprite != 0)
         {
-          GameObject spriteObject = new GameObject($"Tile: {xPos} - {yPos}", typeof(SpriteRenderer));
+          GameObject spriteObject = new GameObject($"Tile: ({xPos}, {yPos})", typeof(SpriteRenderer));
           spriteObject.transform.parent = layerObject.transform;
           spriteObject.GetComponent<SpriteRenderer>().sprite = sprites[currentSprite - 1];
           spriteObject.transform.position = new Vector3(xPos, yPos);
+
+          AddSpecificStuff(spriteObject, layerName);
+
         }
         xPos += spriteSize;
         currentTile++;
       }
       yPos -= spriteSize;
+    }
+  }
+
+  private void AddSpecificStuff(GameObject sprite, string layerName)
+  {
+    switch(layerName)
+    {
+      case "Walls":
+        sprite.AddComponent<BoxCollider2D>();
+        break;
+    }
+  }
+
+  private void BuildObjectLayer(XmlNode objectLayer, int tileWidth)
+  {
+    GameObject layerObject = new GameObject("ObjectLayer");
+    layerObject.transform.parent = this.transform;
+
+    float spriteSize = tileWidth / sprites[0].pixelsPerUnit;
+
+    foreach (XmlNode node in objectLayer.SelectNodes("object"))
+    {
+      if (node.Attributes["gid"] != null)
+      {
+        int sprite = int.Parse(node.Attributes["gid"].Value);
+
+        GameObject ingameObject = new GameObject("InGameObject", typeof(SpriteRenderer));
+        ingameObject.transform.parent = layerObject.transform;
+        ingameObject.GetComponent<SpriteRenderer>().sprite = sprites[sprite - 1];
+
+        Vector2 objectPosition = new Vector2((float.Parse(node.Attributes["x"].Value) / tileWidth),
+          -(float.Parse(node.Attributes["y"].Value) / tileWidth) + 1);
+
+        ingameObject.transform.position = objectPosition;
+      }
+      else
+      {
+        string objectType = node.SelectSingleNode("properties").SelectSingleNode("property").Attributes["name"].Value;
+        GameObject playerSpawnPoint = new GameObject(objectType);
+
+        Vector2 objectPosition = new Vector2((float.Parse(node.Attributes["x"].Value) / tileWidth),
+          -(float.Parse(node.Attributes["y"].Value) / tileWidth) + 1);
+
+        playerSpawnPoint.transform.position = objectPosition;
+      }
     }
   }
 }
