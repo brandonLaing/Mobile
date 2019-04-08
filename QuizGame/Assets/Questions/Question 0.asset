@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2984856538b0e341b0b3ccb0c94d640, type: 3}
   m_Name: Question 0
   m_EditorClassIdentifier: 
-  id: 0
-  question: Question 0
-  awsers:
-  - anwser 1
-  - anwser 2
-  - anwser 3
-  - anwser 4
-  correctAnwser: 2
+  ID: 0000
+  CATEGORY: ANIME
+  QUESTION: Question 0
+  ANWSERS:
+  - Q0A1
+  - Q0A2
+  - Q0A3
+  - Q0A4
+  CORRECTANSWER: 0

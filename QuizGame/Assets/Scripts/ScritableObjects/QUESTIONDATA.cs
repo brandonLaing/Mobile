@@ -5,7 +5,8 @@ using UnityEngine;
 [CreateAssetMenu]
 public class QUESTIONDATA : ScriptableObject
 {
-  public int ID;
+  public string ID;
+  public string CATEGORY;
   public string QUESTION;
   public string[] ANWSERS;
   public int CORRECTANSWER;

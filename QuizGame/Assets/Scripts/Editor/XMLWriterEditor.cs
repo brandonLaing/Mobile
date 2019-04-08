@@ -14,7 +14,7 @@ public class XMLWriterEditor : Editor
 
     if (GUILayout.Button("MAKE XML FILE"))
     {
-      writer.WriteToXML();
+      writer.WriteXML();
     }
   }
 }

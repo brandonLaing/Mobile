@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<questioncollection>
+  <questiondata>
+    <category>ANIME</category>
+    <id>0000</id>
+    <question>Question 0</question>
+    <answer>Q0A1</answer>
+    <answer>Q0A2</answer>
+    <answer>Q0A3</answer>
+    <answer>Q0A4</answer>
+    <correctanswer>0</correctanswer>
+  </questiondata>
+  <questiondata>
+    <category>BOOKS</category>
+    <id>0001</id>
+    <question>Question 1</question>
+    <answer>Q1A1</answer>
+    <answer>Q1A2</answer>
+    <answer>Q1A3</answer>
+    <answer>Q1A4</answer>
+    <correctanswer>1</correctanswer>
+  </questiondata>
+  <questiondata>
+    <category>MOVIES</category>
+    <id>0002</id>
+    <question>Question 2</question>
+    <answer>Q2A1</answer>
+    <answer>Q2A2</answer>
+    <answer>Q2A3</answer>
+    <answer>Q2A4</answer>
+    <correctanswer>2</correctanswer>
+  </questiondata>
+  <questiondata>
+    <category>TV</category>
+    <id>0003</id>
+    <question>Question 3</question>
+    <answer>Q3A1</answer>
+    <answer>Q3A2</answer>
+    <answer>Q3A3</answer>
+    <answer>Q3A4</answer>
+    <correctanswer>3</correctanswer>
+  </questiondata>
+</questioncollection>
