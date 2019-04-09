@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Processess scores
+/// By: Brandon Laing
+/// </summary>
 public class ScoreController : MonoBehaviour
 {
   [SerializeField]
@@ -17,6 +21,16 @@ public class ScoreController : MonoBehaviour
   /// </summary>
   public event System.Action<int, int, int, int> OnScoresProcessed = delegate { };
   public event System.Action<int, int> OnEndGame = delegate { };
+
+  private void Awake()
+  {
+
+  }
+
+  private void OnDestroy()
+  {
+
+  }
 
   public void ProcessOutcome (int player1Answer, int player2Answer, int correctAnswers)
   {

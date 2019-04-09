@@ -6,20 +6,63 @@ using Random = UnityEngine.Random;
 using System.Xml;
 using System.Linq;
 
-public enum QuestionCategories
-{
-  ANIME, BOOKS, MOVIES, TV
-}
-
+/// <summary>
+/// Gets and stores what questions have and have not been asked
+/// By: Brandon Laing
+/// </summary>
 [ExecuteInEditMode]
 public class QuestionController : MonoBehaviour
 {
+  #region Variables
+  [Tooltip("Text File to Read out of")]
+  [SerializeField]
+  private TextAsset xmlFile;
+
+  /// <summary>
+  /// Dictionary of ids and whether or not those ids have been read
+  /// </summary>
   private Dictionary<string, bool> questionIds = new Dictionary<string, bool>();
-  public event Action<string, string[]> OnNewQuestionGrabbed = delegate { };
-  public QuestionCategories category;
-  public TextAsset xmlFile;
+  /// <summary>
+  /// Currently Selected category
+  /// </summary>
+  [SerializeField]
+  private QuestionCategories category;
+  /// <summary>
+  /// Document being read out of
+  /// </summary>
   private XmlDocument xmlDoc = new XmlDocument();
 
+  /// <summary>
+  /// Sends the question and each answer
+  /// </summary>
+  public event Action<string, string[]> OnNewQuestionGrabbed = delegate { };
+  #endregion
+
+  #region UnityEvent
+  private void Awake()
+  {
+    FindObjectOfType<MainMenuController>().OnNewCategorySet += SetCategory;
+  }
+
+  private void OnDestroy()
+  {
+    FindObjectOfType<MainMenuController>().OnNewCategorySet -= SetCategory;
+  }
+  #endregion
+
+  #region Functions
+  /// <summary>
+  /// Sets a question category from main menu
+  /// </summary>
+  /// <param name="category"></param>
+  public void SetCategory(QuestionCategories category)
+  {
+    this.category = category;
+  }
+
+  /// <summary>
+  /// Grabs ids for questions based on what category is selected
+  /// </summary>
   public void GrabIds()
   {
     Debug.Log("Grabbing Ids");
@@ -32,6 +75,11 @@ public class QuestionController : MonoBehaviour
         questionIds.Add(node.SelectSingleNode("id").InnerText, false);
   }
 
+  /// <summary>
+  /// Gets list of questions from xml Doc
+  /// </summary>
+  /// <param name="xmlDoc">Document to read from</param>
+  /// <returns>List of xml questions</returns>
   private static XmlNodeList GetQuestionList(XmlDocument xmlDoc)
   {
     return xmlDoc.SelectSingleNode("questioncollection").SelectNodes("questiondata");
@@ -71,6 +119,10 @@ public class QuestionController : MonoBehaviour
       }
   }
 
+  /// <summary>
+  /// Gets a random questin id of those availible to be asked
+  /// </summary>
+  /// <returns>Random question id</returns>
   private string GetId()
   {
     Debug.Log("Grabbing new Id");
@@ -79,28 +131,32 @@ public class QuestionController : MonoBehaviour
 
     string id = "0000";
     Debug.LogWarning("Ask Tiff about this");
-    //try
-    //{
-    //   id = questionIds
-    //    .Where(i => i.Value == false)
-    //    .OrderBy(r => Random.value)
-    //    .First().Key;
-    //}
-    //catch
-    //{
-    //  ResetQuestions();
-    //  return GetId();
-    //}
+    try
+    {
+      id = questionIds
+       .Where(i => i.Value == false)
+       .OrderBy(r => Random.value)
+       .First().Key;
+    }
+    catch
+    {
+      ResetQuestions();
+      return GetId();
+    }
 
     Debug.Log("Grabbed id: " + id);
     return id;
   }
 
+  /// <summary>
+  /// Goes though and resets all questions in dictionary
+  /// </summary>
   public void ResetQuestions()
   {
     Debug.Log("Reseting Questions");
 
     foreach (string key in questionIds.Keys)
-      questionIds[key] = true;
+      questionIds[key] = false;
   }
+  #endregion
 }
