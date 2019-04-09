@@ -1,46 +1,36 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Xml;
-using System.IO;
+﻿using System.Xml;
 using UnityEngine;
 
+/// <summary>
+/// Writes Question data into a XML File
+/// By: Brandon Laing
+/// </summary>
 [ExecuteInEditMode]
 public class XMLWriter : MonoBehaviour
 {
-  public QUESTIONDATA[] questions;
+  /// <summary>
+  /// All questions to write into file
+  /// </summary>
+  [SerializeField]
+  private QUESTIONDATA[] questions;
 
-  public void WriteToXML()
-  {
-    QUESTIONCOLLECTION allQuestions = new QUESTIONCOLLECTION();
-    allQuestions.QUESTIONS = questions;
-
-    System.Xml.Serialization.XmlSerializer write =
-      new System.Xml.Serialization.XmlSerializer(typeof(QUESTIONCOLLECTION));
-
-    string path = Application.dataPath + "//XMLFile.xml";
-    System.IO.FileStream file = System.IO.File.Create(path);
-
-    Debug.Log("Making file");
-    write.Serialize(file, allQuestions);
-
-    XmlDocument xmlDoc = new XmlDocument();
-    TextAsset xmlFile = new TextAsset();
-
-
-    file.Close();
-
-  }
-
+  /// <summary>
+  /// Writes questions into an XML file
+  /// </summary>
   public void WriteXML()
   {
-    var setting = new XmlWriterSettings();
-    setting.Indent = true;
+    XmlWriterSettings setting = new XmlWriterSettings
+    {
+      Indent = true
+    };
+
     XmlWriter writer = XmlWriter.Create("Assets/QuestionsFile.xml", setting);
+
     writer.WriteStartElement("questioncollection");
     foreach(QUESTIONDATA data in questions)
     {
       writer.WriteStartElement("questiondata");
-      writer.WriteElementString("category", data.CATEGORY);
+      writer.WriteElementString("category", data.CATEGORY.ToString());
       writer.WriteElementString("id", data.ID.ToString());
       writer.WriteElementString("question", data.QUESTION.ToString());
 
@@ -55,10 +45,4 @@ public class XMLWriter : MonoBehaviour
     writer.WriteEndElement();
     writer.Flush();
   }
-}
-
-[System.Serializable]
-public class QUESTIONCOLLECTION
-{
-  public QUESTIONDATA[] QUESTIONS;
 }

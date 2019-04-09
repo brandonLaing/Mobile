@@ -3,35 +3,64 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Controls UI and updates in in different ways
+/// By: Brandon Laing
+/// </summary>
 public class UIController : MonoBehaviour
 {
+
   [Header("Game UI")]
   [SerializeField]
+  [Tooltip("Main Game Canvas")]
   private GameObject gameCanvas;
 
   [SerializeField]
+  [Tooltip("Text box that holds the question")]
   private Text questionText;
+
   [SerializeField]
+  [Tooltip("Each answers text box")]
   private Text[] answersText;
+
   [SerializeField]
+  [Tooltip("Popup that shows up when players are supposed to spawp the phone")]
   private GameObject swapPlayersPopup;
+
   [SerializeField]
+  [Tooltip("Text boxes for player 1")]
   private Text player1Score, player1Health;
+
   [SerializeField]
+  [Tooltip("Text boxes for player 2")]
   private Text player2Score, player2Health;
 
   [Header("End Game UI")]
+  [Tooltip("Post Game Canvas")]
   [SerializeField]
   private GameObject endGameCanvas;
 
   [SerializeField]
+  [Tooltip("Post Game Player 1 Score Text Box")]
   private Text endGamePlayer1Score;
   [SerializeField]
+  [Tooltip("Post Game Player 2 Score Text Box")]
   private Text endGamePlayer2Score;
 
   [Header("Main Menu Canvas")]
   [SerializeField]
+  [Tooltip("Main Menu Canvas")]
   private GameObject mainMenuCanvas;
+
+  private void Awake()
+  {
+    
+  }
+
+  private void OnDestroy()
+  {
+    
+  }
 
   /// <summary>
   /// Show a question to the screen
@@ -71,8 +100,7 @@ public class UIController : MonoBehaviour
   /// <param name="player2Score"></param>
   /// <param name="player1Health"></param>
   /// <param name="player2Health"></param>
-  public void UpdateScoreDisplay(int player1Score, int player2Score, 
-    int player1Health, int player2Health)
+  public void UpdateScoreDisplay(int player1Score, int player2Score, int player1Health, int player2Health)
   {
     this.player1Score.text = player1Score.ToString();
     this.player2Score.text = player2Score.ToString();
