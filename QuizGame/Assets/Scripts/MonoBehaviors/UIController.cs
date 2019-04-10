@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -67,6 +68,7 @@ public class UIController : MonoBehaviour
     gc.OnNewGameStarted += ShowGameCanvas;
     gc.OnPopupSwapPlayer += PopupSwapPlayer;
     gc.OnShowCorrectAnswer += HighlightCorrectAnswer;
+    gc.OnNewGameStarted += ResetUIs;
 
     ScoreController sc = FindObjectOfType<ScoreController>();
     sc.OnScoresProcessed += UpdateScoreDisplay;
@@ -75,15 +77,42 @@ public class UIController : MonoBehaviour
     FindObjectOfType<QuestionController>().OnNewQuestionGrabbed += DisplayNewQuestion;
 
     FindObjectOfType<TimerController>().OnTimeChanged += UpdateClockUI;
+
+    FindObjectOfType<SideBarController>().OnBackToMenu += ShowMainMenuCanvas;
+  }
+
+  private void ResetUIs()
+  {
+    player1Score.text = 0.ToString();
+    player2Score.text = 0.ToString();
+    questionText.text = "";
+    for (int i = 0; i < answersText.Length; i++)
+      answersText[i].text = "";
+
+    for (int i = 0; i < player1Health.Length; i++)
+    {
+      player1Health[i].SetActive(true);
+      player2Health[i].SetActive(true);
+    }
   }
 
   private void OnDestroy()
   {
-    FindObjectOfType<GameController>().OnNewGameStarted -= ShowGameCanvas;
-    FindObjectOfType<GameController>().OnPopupSwapPlayer -= PopupSwapPlayer;
+    GameController gc = FindObjectOfType<GameController>();
+    gc.OnNewGameStarted -= ShowGameCanvas;
+    gc.OnPopupSwapPlayer -= PopupSwapPlayer;
+    gc.OnShowCorrectAnswer -= HighlightCorrectAnswer;
+    gc.OnNewGameStarted -= ResetUIs;
+
+    ScoreController sc = FindObjectOfType<ScoreController>();
+    sc.OnScoresProcessed -= UpdateScoreDisplay;
+    sc.OnEndGame -= DisplayEndGameUI;
+
     FindObjectOfType<QuestionController>().OnNewQuestionGrabbed -= DisplayNewQuestion;
-    FindObjectOfType<ScoreController>().OnScoresProcessed -= UpdateScoreDisplay;
-    FindObjectOfType<ScoreController>().OnEndGame -= DisplayEndGameUI;
+
+    FindObjectOfType<TimerController>().OnTimeChanged -= UpdateClockUI;
+
+    FindObjectOfType<SideBarController>().OnBackToMenu -= ShowMainMenuCanvas;
   }
 
   /// <summary>
@@ -155,6 +184,8 @@ public class UIController : MonoBehaviour
       this.endGamePlayer1Score.text = player2Score.ToString();
       this.endGamePlayer2Score.text = player1Score.ToString();
     }
+
+    Invoke("ShowMainMenuCanvas", 5);
   }
 
   /// <summary>
@@ -189,6 +220,12 @@ public class UIController : MonoBehaviour
   {
     HideUIs();
     gameCanvas.SetActive(true);
+  }
+
+  public void ShowMainMenuCanvas()
+  {
+    HideUIs();
+    mainMenuCanvas.SetActive(true);
   }
 
   /// <summary>

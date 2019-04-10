@@ -28,8 +28,8 @@ public class TimerController : MonoBehaviour
     sb.OnGameUnpaused += ResumeCountDown;
 
     GameController gc = FindObjectOfType<GameController>();
-    gc.OnBothAnswersReceived += PauseCountDown;
     gc.OnNewRoundStart += StartCountDown;
+    gc.OnPopupSwapPlayer += PauseCountDown;
   }
 
   private void OnDestroy()
@@ -39,7 +39,7 @@ public class TimerController : MonoBehaviour
     sb.OnGameUnpaused -= ResumeCountDown;
 
     GameController gc = FindObjectOfType<GameController>();
-    gc.OnBothAnswersReceived -= PauseCountDown;
+    gc.OnPopupSwapPlayer -= PauseCountDown;
     gc.OnNewRoundStart -= StartCountDown;
   }
 
@@ -56,6 +56,7 @@ public class TimerController : MonoBehaviour
   /// </summary>
   public void StartCountDown()
   {
+    Debug.Log("Starting count");
     ResetTimer();
     isCountingDown = true;
   }
@@ -88,12 +89,8 @@ public class TimerController : MonoBehaviour
   /// </summary>
   public void PauseCountDown()
   {
+    Debug.Log("End Count");
     isCountingDown = false;
-  }
-
-  public void PauseCountDown(int int1, int int2, int int3)
-  {
-    PauseCountDown();
   }
 
   /// <summary>
@@ -101,6 +98,7 @@ public class TimerController : MonoBehaviour
   /// </summary>
   public void ResumeCountDown()
   {
+    Debug.Log("Starting count");
     isCountingDown = true;
   }
 }

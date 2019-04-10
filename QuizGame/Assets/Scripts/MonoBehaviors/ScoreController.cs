@@ -25,11 +25,21 @@ public class ScoreController : MonoBehaviour
   private void Awake()
   {
     FindObjectOfType<GameController>().OnBothAnswersReceived += ProcessOutcome;
+    FindObjectOfType<GameController>().OnNewGameStarted += ResetScore;
   }
 
   private void OnDestroy()
   {
     FindObjectOfType<GameController>().OnBothAnswersReceived -= ProcessOutcome;
+    FindObjectOfType<GameController>().OnNewGameStarted -= ResetScore;
+  }
+
+  public void ResetScore()
+  {
+    player1Score = 0;
+    player2Score = 0;
+    player1Health = 3;
+    player2Health = 3;
   }
 
   public void ProcessOutcome (int player1Answer, int player2Answer, int correctAnswers)

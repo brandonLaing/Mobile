@@ -37,6 +37,8 @@ public class GameController : MonoBehaviour
   /// </summary>
   public void StartNewGame()
   {
+    player1Answer = -1;
+    correctAnswer = -1;
     OnNewGameStarted();
     OnNewRoundStart();
   }

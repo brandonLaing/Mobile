@@ -44,5 +44,6 @@ public class XMLWriter : MonoBehaviour
     }
     writer.WriteEndElement();
     writer.Flush();
+    writer.Close();
   }
 }
