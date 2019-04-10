@@ -10,7 +10,6 @@ using System.Linq;
 /// Gets and stores what questions have and have not been asked
 /// By: Brandon Laing
 /// </summary>
-[ExecuteInEditMode]
 public class QuestionController : MonoBehaviour
 {
   #region Variables
@@ -36,17 +35,24 @@ public class QuestionController : MonoBehaviour
   /// Sends the question and each answer
   /// </summary>
   public event Action<string, string[]> OnNewQuestionGrabbed = delegate { };
+  public event Action<int> OnCorrectAnswerGrabbed = delegate { };
   #endregion
 
   #region UnityEvent
   private void Awake()
   {
     FindObjectOfType<MainMenuController>().OnNewCategorySet += SetCategory;
+    GameController gC = FindObjectOfType<GameController>();
+    gC.OnNewGameStarted += GrabIds;
+    gC.OnNewRoundStart += GetQuestion;
   }
 
   private void OnDestroy()
   {
     FindObjectOfType<MainMenuController>().OnNewCategorySet -= SetCategory;
+    GameController gC = FindObjectOfType<GameController>();
+    gC.OnNewGameStarted -= GrabIds;
+    gC.OnNewRoundStart -= GetQuestion;
   }
   #endregion
 
@@ -65,7 +71,6 @@ public class QuestionController : MonoBehaviour
   /// </summary>
   public void GrabIds()
   {
-    Debug.Log("Grabbing Ids");
     questionIds.Clear();
     xmlDoc.LoadXml(xmlFile.text);
     XmlNodeList questionsNode = GetQuestionList(xmlDoc);
@@ -90,7 +95,6 @@ public class QuestionController : MonoBehaviour
   /// </summary>
   public void GetQuestion()
   {
-    Debug.Log("Getting Question");
     string id = GetId();
     questionIds[id] = true;
 
@@ -102,6 +106,7 @@ public class QuestionController : MonoBehaviour
       {
         string question = node.SelectSingleNode("question").InnerText;
         string[] answers = new string[4];
+        int correctAnswer = int.Parse(node.SelectSingleNode("correctanswer").InnerText);
         XmlNodeList answersNodeList = node.SelectNodes("answer");
         for (int i = 0; i < answers.Length; i++)
         {
@@ -113,8 +118,10 @@ public class QuestionController : MonoBehaviour
           $"\n\t{answers[0]}" +
           $"\n\t{answers[1]}" +
           $"\n\t{answers[2]}" +
-          $"\n\t{answers[3]}");
+          $"\n\t{answers[3]}" +
+          $"\n{correctAnswer.ToString()}");
 
+        OnCorrectAnswerGrabbed(correctAnswer);
         OnNewQuestionGrabbed(question, answers);
       }
   }
@@ -125,8 +132,6 @@ public class QuestionController : MonoBehaviour
   /// <returns>Random question id</returns>
   private string GetId()
   {
-    Debug.Log("Grabbing new Id");
-    Debug.LogWarning(questionIds.Count);
     Random rnd = new Random();
 
     string id = "0000";
@@ -144,7 +149,6 @@ public class QuestionController : MonoBehaviour
       return GetId();
     }
 
-    Debug.Log("Grabbed id: " + id);
     return id;
   }
 
@@ -154,8 +158,8 @@ public class QuestionController : MonoBehaviour
   public void ResetQuestions()
   {
     Debug.Log("Reseting Questions");
-
-    foreach (string key in questionIds.Keys)
+    string[] copy = questionIds.Keys.ToArray();
+    foreach (string key in copy)
       questionIds[key] = false;
   }
   #endregion

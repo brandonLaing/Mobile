@@ -4,7 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// Tracks time of game
-/// by: Natilie
+/// by: Natilie Eidt
 /// </summary>
 public class TimerController : MonoBehaviour
 {
@@ -21,12 +21,34 @@ public class TimerController : MonoBehaviour
   public event System.Action OnTimerFinished = delegate { };
   public event System.Action<float> OnTimeChanged = delegate { };
 
+  private void Start()
+  {
+    SideBarController sb = FindObjectOfType<SideBarController>();
+    sb.OnGamePause += PauseCountDown;
+    sb.OnGameUnpaused += ResumeCountDown;
+
+    GameController gc = FindObjectOfType<GameController>();
+    gc.OnBothAnswersReceived += PauseCountDown;
+    gc.OnNewRoundStart += StartCountDown;
+  }
+
+  private void OnDestroy()
+  {
+    SideBarController sb = FindObjectOfType<SideBarController>();
+    sb.OnGamePause -= PauseCountDown;
+    sb.OnGameUnpaused -= ResumeCountDown;
+
+    GameController gc = FindObjectOfType<GameController>();
+    gc.OnBothAnswersReceived -= PauseCountDown;
+    gc.OnNewRoundStart -= StartCountDown;
+  }
+
   /// <summary>
   /// Resets timer
   /// </summary>
   private void ResetTimer()
   {
-    timeCurrent = 0;
+    timeCurrent = timeMax;
   }
 
   /// <summary>
@@ -48,15 +70,17 @@ public class TimerController : MonoBehaviour
 
   /// <summary>
   /// Increments time and sends on time changed call. If timer is done calls on timer finished
-  /// By: Brandon Laing
   /// </summary>
   private void CountDownTimer()
   {
-    timeCurrent += Time.deltaTime;
-    OnTimeChanged(timeCurrent);
+    if (isCountingDown)
+    {
+      timeCurrent -= Time.deltaTime;
+      OnTimeChanged(timeCurrent);
 
-    if (timeCurrent >= timeMax)
-      OnTimerFinished();
+      if (timeCurrent <= 0)
+        OnTimerFinished();
+    }
   }
 
   /// <summary>
@@ -65,6 +89,11 @@ public class TimerController : MonoBehaviour
   public void PauseCountDown()
   {
     isCountingDown = false;
+  }
+
+  public void PauseCountDown(int int1, int int2, int int3)
+  {
+    PauseCountDown();
   }
 
   /// <summary>
