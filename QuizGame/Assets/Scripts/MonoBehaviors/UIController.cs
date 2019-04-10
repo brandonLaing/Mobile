@@ -29,11 +29,15 @@ public class UIController : MonoBehaviour
 
   [SerializeField]
   [Tooltip("Text boxes for player 1")]
-  private Text player1Score, player1Health;
+  private Text player1Score;
 
   [SerializeField]
   [Tooltip("Text boxes for player 2")]
-  private Text player2Score, player2Health;
+  private Text player2Score;
+
+  [SerializeField]
+  [Tooltip("In order from 1 to 3 health hearts")]
+  private GameObject[] player1Health = new GameObject[3], player2Health = new GameObject[3];
 
   [Header("End Game UI")]
   [Tooltip("Post Game Canvas")]
@@ -52,14 +56,34 @@ public class UIController : MonoBehaviour
   [Tooltip("Main Menu Canvas")]
   private GameObject mainMenuCanvas;
 
+  [SerializeField]
+  private Text clockText;
+
+  private int correctAnswer;
+
   private void Awake()
   {
-    
+    GameController gc = FindObjectOfType<GameController>();
+    gc.OnNewGameStarted += ShowGameCanvas;
+    gc.OnPopupSwapPlayer += PopupSwapPlayer;
+    gc.OnShowCorrectAnswer += HighlightCorrectAnswer;
+
+    ScoreController sc = FindObjectOfType<ScoreController>();
+    sc.OnScoresProcessed += UpdateScoreDisplay;
+    sc.OnEndGame += DisplayEndGameUI;
+
+    FindObjectOfType<QuestionController>().OnNewQuestionGrabbed += DisplayNewQuestion;
+
+    FindObjectOfType<TimerController>().OnTimeChanged += UpdateClockUI;
   }
 
   private void OnDestroy()
   {
-    
+    FindObjectOfType<GameController>().OnNewGameStarted -= ShowGameCanvas;
+    FindObjectOfType<GameController>().OnPopupSwapPlayer -= PopupSwapPlayer;
+    FindObjectOfType<QuestionController>().OnNewQuestionGrabbed -= DisplayNewQuestion;
+    FindObjectOfType<ScoreController>().OnScoresProcessed -= UpdateScoreDisplay;
+    FindObjectOfType<ScoreController>().OnEndGame -= DisplayEndGameUI;
   }
 
   /// <summary>
@@ -105,8 +129,11 @@ public class UIController : MonoBehaviour
     this.player1Score.text = player1Score.ToString();
     this.player2Score.text = player2Score.ToString();
 
-    this.player1Health.text = player1Health.ToString();
-    this.player2Health.text = player2Health.ToString();
+    if (player1Health < 3)
+      this.player1Health[player1Health].SetActive(false);
+
+    if (player2Health < 3)
+      this.player2Health[player2Health].SetActive(false);
   }
 
   /// <summary>
@@ -118,8 +145,16 @@ public class UIController : MonoBehaviour
   {
     HideUIs();
     endGameCanvas.SetActive(true);
-    this.endGamePlayer1Score.text = player1Score.ToString();
-    this.endGamePlayer2Score.text = player2Score.ToString();
+    if (player1Score > player2Score)
+    {
+      this.endGamePlayer1Score.text = player1Score.ToString();
+      this.endGamePlayer2Score.text = player2Score.ToString();
+    }
+    else
+    {
+      this.endGamePlayer1Score.text = player2Score.ToString();
+      this.endGamePlayer2Score.text = player1Score.ToString();
+    }
   }
 
   /// <summary>
@@ -128,13 +163,14 @@ public class UIController : MonoBehaviour
   /// <param name="correctAnswer">Correct answer number</param>
   public void HighlightCorrectAnswer(int correctAnswer)
   {
-    answersText[correctAnswer].color = Color.green;
-    Invoke("ResetColor", 5);
+    this.correctAnswer = correctAnswer;
+    answersText[this.correctAnswer].color = Color.green;
+    Invoke("ResetColor", 1);
   }
 
-  private void ResetColor(int correctAnswer)
+  private void ResetColor()
   {
-    answersText[correctAnswer].color = Color.white;
+    answersText[correctAnswer].color = Color.black;
   }
 
   /// <summary>
@@ -143,7 +179,7 @@ public class UIController : MonoBehaviour
   /// <param name="time">Current time out of 60 seconds</param>
   public void UpdateClockUI(float time)
   {
-    throw new System.NotImplementedException();
+    clockText.text = (Mathf.RoundToInt(time)).ToString();
   }
 
   /// <summary>

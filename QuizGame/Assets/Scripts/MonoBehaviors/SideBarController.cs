@@ -15,18 +15,24 @@ public class SideBarController : MonoBehaviour
   public event System.Action OnGamePause = delegate { };
   public event System.Action OnBackToMenu = delegate { };
 
-  private void Awake()
-  {
+  /// <summary>
+  /// Tracks the status of sound effects
+  /// </summary>
+  private bool isPlayingMusic = true;
 
+  public void ToggleMusic()
+  {
+    if (isPlayingMusic)
+      musicSource.Pause();
+    else
+      musicSource.UnPause();
+    isPlayingMusic = !isPlayingMusic;
   }
 
-  private void OnDestroy()
+  public void ToggleSounds()
   {
-
+    soundsSource.mute = !soundsSource.mute;
   }
-
-  public void ToggleMusic() => musicSource.mute = !musicSource.mute;
-  public void ToggleSounds() => soundsSource.mute = !soundsSource.mute;
 
   /// <summary>
   /// Opens options menu and pauses game
@@ -53,5 +59,6 @@ public class SideBarController : MonoBehaviour
   public void GoBackToMainMenu()
   {
     OnBackToMenu();
+    OnGamePause();
   }
 }

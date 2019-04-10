@@ -14,7 +14,7 @@ public class ScoreController : MonoBehaviour
   private int player1Health = 3, player2Health = 3;
 
   [SerializeField]
-  private readonly int answerValue;
+  private int answerValue;
 
   /// <summary>
   /// Once all scores have been checked and no health below 0. p1score, p1health, p2score, p2health
@@ -24,12 +24,12 @@ public class ScoreController : MonoBehaviour
 
   private void Awake()
   {
-
+    FindObjectOfType<GameController>().OnBothAnswersReceived += ProcessOutcome;
   }
 
   private void OnDestroy()
   {
-
+    FindObjectOfType<GameController>().OnBothAnswersReceived -= ProcessOutcome;
   }
 
   public void ProcessOutcome (int player1Answer, int player2Answer, int correctAnswers)
@@ -48,10 +48,12 @@ public class ScoreController : MonoBehaviour
 
     if (player1Health <= 0 || player2Health <= 0)
     {
-      OnEndGame(player1Health, player2Health);
+      Debug.Log("Ending game");
+
+      OnEndGame(player1Score, player2Score);
       return;
     }
 
-    OnScoresProcessed(player1Score, player1Health, player2Score, player2Health);
+    OnScoresProcessed(player1Score, player2Score, player1Health, player2Health);
   }
 }
