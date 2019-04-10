@@ -10,58 +10,46 @@ using UnityEngine.UI;
 /// </summary>
 public class UIController : MonoBehaviour
 {
-
+  #region Variables
   [Header("Game UI")]
-  [SerializeField]
+
   [Tooltip("Main Game Canvas")]
-  private GameObject gameCanvas;
-
-  [SerializeField]
+  public GameObject gameCanvas;
   [Tooltip("Text box that holds the question")]
-  private Text questionText;
-
-  [SerializeField]
+  public Text questionText;
   [Tooltip("Each answers text box")]
-  private Text[] answersText;
+  public Text[] answersText;
 
-  [SerializeField]
   [Tooltip("Popup that shows up when players are supposed to spawp the phone")]
-  private GameObject swapPlayersPopup;
-
-  [SerializeField]
+  public GameObject swapPlayersPopup;
   [Tooltip("Text boxes for player 1")]
-  private Text player1Score;
-
-  [SerializeField]
+  public Text player1Score;
   [Tooltip("Text boxes for player 2")]
-  private Text player2Score;
-
-  [SerializeField]
+  public Text player2Score;
   [Tooltip("In order from 1 to 3 health hearts")]
-  private GameObject[] player1Health = new GameObject[3], player2Health = new GameObject[3];
+  public GameObject[] player1Health = new GameObject[3], player2Health = new GameObject[3];
 
   [Header("End Game UI")]
   [Tooltip("Post Game Canvas")]
-  [SerializeField]
-  private GameObject endGameCanvas;
-
-  [SerializeField]
+  public GameObject endGameCanvas;
   [Tooltip("Post Game Player 1 Score Text Box")]
-  private Text endGamePlayer1Score;
-  [SerializeField]
+  public Text endGamePlayer1Score;
   [Tooltip("Post Game Player 2 Score Text Box")]
-  private Text endGamePlayer2Score;
+  public Text endGamePlayer2Score;
 
   [Header("Main Menu Canvas")]
-  [SerializeField]
   [Tooltip("Main Menu Canvas")]
-  private GameObject mainMenuCanvas;
+  public GameObject mainMenuCanvas;
+  [Tooltip("Test that the countdown will show on")]
+  public Text clockText;
 
-  [SerializeField]
-  private Text clockText;
-
+  /// <summary>
+  /// Stored correct answer for unhighlighting
+  /// </summary>
   private int correctAnswer;
+  #endregion
 
+  #region Unity Events
   private void Awake()
   {
     GameController gc = FindObjectOfType<GameController>();
@@ -79,21 +67,6 @@ public class UIController : MonoBehaviour
     FindObjectOfType<TimerController>().OnTimeChanged += UpdateClockUI;
 
     FindObjectOfType<SideBarController>().OnBackToMenu += ShowMainMenuCanvas;
-  }
-
-  private void ResetUIs()
-  {
-    player1Score.text = 0.ToString();
-    player2Score.text = 0.ToString();
-    questionText.text = "";
-    for (int i = 0; i < answersText.Length; i++)
-      answersText[i].text = "";
-
-    for (int i = 0; i < player1Health.Length; i++)
-    {
-      player1Health[i].SetActive(true);
-      player2Health[i].SetActive(true);
-    }
   }
 
   private void OnDestroy()
@@ -114,6 +87,28 @@ public class UIController : MonoBehaviour
 
     FindObjectOfType<SideBarController>().OnBackToMenu -= ShowMainMenuCanvas;
   }
+
+  #endregion
+
+  #region Functions
+  /// <summary>
+  /// Resets all ui elements for the start of a game
+  /// </summary>
+  private void ResetUIs()
+  {
+    player1Score.text = 0.ToString();
+    player2Score.text = 0.ToString();
+    questionText.text = "";
+    for (int i = 0; i < answersText.Length; i++)
+      answersText[i].text = "";
+
+    for (int i = 0; i < player1Health.Length; i++)
+    {
+      player1Health[i].SetActive(true);
+      player2Health[i].SetActive(true);
+    }
+  }
+
 
   /// <summary>
   /// Show a question to the screen
@@ -150,9 +145,9 @@ public class UIController : MonoBehaviour
   /// Updates the UI to show the new score and Health
   /// </summary>
   /// <param name="player1Score">Player 1s score</param>
-  /// <param name="player2Score"></param>
-  /// <param name="player1Health"></param>
-  /// <param name="player2Health"></param>
+  /// <param name="player2Score">Player 2s score</param>
+  /// <param name="player1Health">player 1s health</param>
+  /// <param name="player2Health">player 2s health</param>
   public void UpdateScoreDisplay(int player1Score, int player2Score, int player1Health, int player2Health)
   {
     this.player1Score.text = player1Score.ToString();
@@ -166,7 +161,7 @@ public class UIController : MonoBehaviour
   }
 
   /// <summary>
-  /// Opens the end game UI
+  /// Opens the end game UI then sends game back to the main menu
   /// </summary>
   /// <param name="player1Score"></param>
   /// <param name="player2Score"></param>
@@ -189,7 +184,7 @@ public class UIController : MonoBehaviour
   }
 
   /// <summary>
-  /// Highlights the correct answer once both are answered
+  /// Highlights the correct answer once both are answered and then waits a second and resets the color
   /// </summary>
   /// <param name="correctAnswer">Correct answer number</param>
   public void HighlightCorrectAnswer(int correctAnswer)
@@ -199,6 +194,9 @@ public class UIController : MonoBehaviour
     Invoke("ResetColor", 1);
   }
 
+  /// <summary>
+  /// Resets the color of the text back to its original color
+  /// </summary>
   private void ResetColor()
   {
     answersText[correctAnswer].color = Color.black;
@@ -222,6 +220,9 @@ public class UIController : MonoBehaviour
     gameCanvas.SetActive(true);
   }
 
+  /// <summary>
+  /// Sets the main menu to the only display
+  /// </summary>
   public void ShowMainMenuCanvas()
   {
     HideUIs();
@@ -237,4 +238,5 @@ public class UIController : MonoBehaviour
     mainMenuCanvas.SetActive(false);
     gameCanvas.SetActive(false);
   }
+  #endregion
 }

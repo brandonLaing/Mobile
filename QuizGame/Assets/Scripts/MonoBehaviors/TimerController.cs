@@ -8,15 +8,12 @@ using UnityEngine;
 /// </summary>
 public class TimerController : MonoBehaviour
 {
-  [SerializeField]
   [Tooltip("Time on current count")]
-  private float timeCurrent;
-  [SerializeField]
+  public float timeCurrent;
   [Tooltip("Max time allowed")]
-  private float timeMax = 30;
-  [SerializeField]
+  public float timeMax = 30;
   [Tooltip("If timer is counting")]
-  private bool isCountingDown;
+  public bool countingDown;
 
   public event System.Action OnTimerFinished = delegate { };
   public event System.Action<float> OnTimeChanged = delegate { };
@@ -58,7 +55,7 @@ public class TimerController : MonoBehaviour
   {
     Debug.Log("Starting count");
     ResetTimer();
-    isCountingDown = true;
+    countingDown = true;
   }
 
   /// <summary>
@@ -74,7 +71,7 @@ public class TimerController : MonoBehaviour
   /// </summary>
   private void CountDownTimer()
   {
-    if (isCountingDown)
+    if (countingDown)
     {
       timeCurrent -= Time.deltaTime;
       OnTimeChanged(timeCurrent);
@@ -90,7 +87,7 @@ public class TimerController : MonoBehaviour
   public void PauseCountDown()
   {
     Debug.Log("End Count");
-    isCountingDown = false;
+    countingDown = false;
   }
 
   /// <summary>
@@ -99,6 +96,6 @@ public class TimerController : MonoBehaviour
   public void ResumeCountDown()
   {
     Debug.Log("Starting count");
-    isCountingDown = true;
+    countingDown = true;
   }
 }

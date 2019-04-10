@@ -15,7 +15,7 @@ public class QuestionController : MonoBehaviour
   #region Variables
   [Tooltip("Text File to Read out of")]
   [SerializeField]
-  private TextAsset xmlFile;
+  public TextAsset xmlFile;
 
   /// <summary>
   /// Dictionary of ids and whether or not those ids have been read
@@ -24,16 +24,12 @@ public class QuestionController : MonoBehaviour
   /// <summary>
   /// Currently Selected category
   /// </summary>
-  [SerializeField]
   private QuestionCategories category;
   /// <summary>
   /// Document being read out of
   /// </summary>
   private XmlDocument xmlDoc = new XmlDocument();
 
-  /// <summary>
-  /// Sends the question and each answer
-  /// </summary>
   public event Action<string, string[]> OnNewQuestionGrabbed = delegate { };
   public event Action<int> OnCorrectAnswerGrabbed = delegate { };
   #endregion

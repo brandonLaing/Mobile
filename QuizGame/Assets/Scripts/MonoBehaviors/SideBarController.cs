@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 /// <summary>
 /// Controls all info on the side bar
@@ -8,18 +9,26 @@ using UnityEngine;
 /// </summary>
 public class SideBarController : MonoBehaviour
 {
+  #region variables
+  [Tooltip("Options menu canvas")]
   public GameObject optionsCanvas;
+  [Tooltip("Audio source for music or sound")]
   public AudioSource musicSource, soundsSource;
 
-  public event System.Action OnGameUnpaused = delegate { };
-  public event System.Action OnGamePause = delegate { };
-  public event System.Action OnBackToMenu = delegate { };
+  public event Action OnGameUnpaused = delegate { };
+  public event Action OnGamePause = delegate { };
+  public event Action OnBackToMenu = delegate { };
 
   /// <summary>
   /// Tracks the status of sound effects
   /// </summary>
   private bool isPlayingMusic = true;
+  #endregion
 
+  #region Functions
+  /// <summary>
+  /// Pauses the music or unpauses it
+  /// </summary>
   public void ToggleMusic()
   {
     if (isPlayingMusic)
@@ -29,6 +38,9 @@ public class SideBarController : MonoBehaviour
     isPlayingMusic = !isPlayingMusic;
   }
 
+  /// <summary>
+  /// Mutes or unmutes the sounds
+  /// </summary>
   public void ToggleSounds()
   {
     soundsSource.mute = !soundsSource.mute;
@@ -61,4 +73,5 @@ public class SideBarController : MonoBehaviour
     OnBackToMenu();
     OnGamePause();
   }
+  #endregion
 }

@@ -9,16 +9,11 @@ using UnityEngine;
 public class XMLWriter : MonoBehaviour
 {
   /// <summary>
-  /// All questions to write into file
-  /// </summary>
-  [SerializeField]
-  private QUESTIONDATA[] questions;
-
-  /// <summary>
   /// Writes questions into an XML file
   /// </summary>
   public void WriteXML()
   {
+    // Make quick Writer settings
     XmlWriterSettings setting = new XmlWriterSettings
     {
       Indent = true
@@ -26,8 +21,10 @@ public class XMLWriter : MonoBehaviour
 
     XmlWriter writer = XmlWriter.Create("Assets/QuestionsFile.xml", setting);
 
+    // Make root
     writer.WriteStartElement("questioncollection");
     int currentID = 0;
+    // Grab each question from the resource folder and write it into the file
     foreach(QUESTIONDATA data in Resources.FindObjectsOfTypeAll(typeof(QUESTIONDATA)))
     {
       writer.WriteStartElement("questiondata");
