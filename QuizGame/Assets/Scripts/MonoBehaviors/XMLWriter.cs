@@ -27,11 +27,12 @@ public class XMLWriter : MonoBehaviour
     XmlWriter writer = XmlWriter.Create("Assets/QuestionsFile.xml", setting);
 
     writer.WriteStartElement("questioncollection");
-    foreach(QUESTIONDATA data in questions)
+    int currentID = 0;
+    foreach(QUESTIONDATA data in Resources.FindObjectsOfTypeAll(typeof(QUESTIONDATA)))
     {
       writer.WriteStartElement("questiondata");
       writer.WriteElementString("category", data.CATEGORY.ToString());
-      writer.WriteElementString("id", data.ID.ToString());
+      writer.WriteElementString("id", currentID.ToString()); currentID++;
       writer.WriteElementString("question", data.QUESTION.ToString());
 
       foreach(string answer in data.ANWSERS)
