@@ -10,6 +10,9 @@ public class LoadMap : MonoBehaviour
   [SerializeField]
   private Sprite[] sprites;
 
+  Dictionary<int, XmlNode> allSpecialTiles;
+
+
   private void Start()
   {
     LoadXml();
@@ -37,16 +40,29 @@ public class LoadMap : MonoBehaviour
 
     XmlNodeList allLayers = mapNode.SelectNodes("layer");
 
+    int layerCount = 0;
     foreach (XmlNode layer in allLayers)
     {
-      BuildLayer(layer, mapWidth, mapHeight, tileWidth, layer.Attributes["name"].Value);
+      BuildLayer(layer, mapWidth, mapHeight, tileWidth, layer.Attributes["name"].Value, layerCount);
+      layerCount++;
     }
 
-    BuildObjectLayer(mapNode.SelectSingleNode("objectgroup"), tileWidth);
+    XmlNodeList special = mapNode.SelectSingleNode("tileset").SelectNodes("tile");
+    allSpecialTiles = new Dictionary<int, XmlNode>();
 
+    foreach (XmlNode node in special)
+    {
+      allSpecialTiles.Add(int.Parse(node.Attributes["id"].Value), node);
+    }
+
+    Debug.Log(special.Count);
+
+    BuildObjectLayer(mapNode.SelectSingleNode("objectgroup"), tileWidth, layerCount);
   }
 
-  private void BuildLayer(XmlNode mapNode, int mapWidth, int mapHeight, int tileWidth, string layerName)
+
+
+  private void BuildLayer(XmlNode mapNode, int mapWidth, int mapHeight, int tileWidth, string layerName, int layerCount)
   {
     GameObject layerObject = new GameObject(layerName);
     layerObject.transform.parent = this.transform;
@@ -69,6 +85,7 @@ public class LoadMap : MonoBehaviour
           spriteObject.transform.parent = layerObject.transform;
           spriteObject.GetComponent<SpriteRenderer>().sprite = sprites[currentSprite - 1];
           spriteObject.transform.position = new Vector3(xPos, yPos);
+          spriteObject.GetComponent<SpriteRenderer>().sortingOrder = layerCount;
 
           AddSpecificStuff(spriteObject, layerName);
 
@@ -90,7 +107,7 @@ public class LoadMap : MonoBehaviour
     }
   }
 
-  private void BuildObjectLayer(XmlNode objectLayer, int tileWidth)
+  private void BuildObjectLayer(XmlNode objectLayer, int tileWidth, int layerCount)
   {
     GameObject layerObject = new GameObject("ObjectLayer");
     layerObject.transform.parent = this.transform;
@@ -106,11 +123,13 @@ public class LoadMap : MonoBehaviour
         GameObject ingameObject = new GameObject("InGameObject", typeof(SpriteRenderer));
         ingameObject.transform.parent = layerObject.transform;
         ingameObject.GetComponent<SpriteRenderer>().sprite = sprites[sprite - 1];
+        ingameObject.GetComponent<SpriteRenderer>().sortingOrder = layerCount;
 
         Vector2 objectPosition = new Vector2((float.Parse(node.Attributes["x"].Value) / tileWidth),
           -(float.Parse(node.Attributes["y"].Value) / tileWidth) + 1);
 
         ingameObject.transform.position = objectPosition;
+
       }
       else
       {
@@ -123,5 +142,6 @@ public class LoadMap : MonoBehaviour
         playerSpawnPoint.transform.position = objectPosition;
       }
     }
+    layerCount++;
   }
 }

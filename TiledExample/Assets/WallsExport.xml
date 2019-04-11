@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="left-down" width="50" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="60">
+<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="60">
  <tileset firstgid="1" name="BaseSet2" tilewidth="16" tileheight="16" spacing="1" tilecount="522" columns="29">
   <image source="Resources/roguelikeDungeon_transparent.png" width="492" height="305"/>
   <tile id="21">
@@ -130,6 +130,56 @@
     <property name="DoorPositionY" type="int" value="1"/>
     <property name="DoorWidth" type="int" value="3"/>
     <property name="Type" value="Door"/>
+   </properties>
+  </tile>
+  <tile id="480">
+   <properties>
+    <property name="Type" value="Wall"/>
+   </properties>
+  </tile>
+  <tile id="481">
+   <properties>
+    <property name="Type" value="Wall"/>
+   </properties>
+  </tile>
+  <tile id="482">
+   <properties>
+    <property name="Type" value="Wall"/>
+   </properties>
+  </tile>
+  <tile id="483">
+   <properties>
+    <property name="Type" value="Wall"/>
+   </properties>
+  </tile>
+  <tile id="484">
+   <properties>
+    <property name="Type" value="Wall"/>
+   </properties>
+  </tile>
+  <tile id="509">
+   <properties>
+    <property name="Type" value="Wall"/>
+   </properties>
+  </tile>
+  <tile id="510">
+   <properties>
+    <property name="Type" value="Wall"/>
+   </properties>
+  </tile>
+  <tile id="511">
+   <properties>
+    <property name="Type" value="Wall"/>
+   </properties>
+  </tile>
+  <tile id="512">
+   <properties>
+    <property name="Type" value="Wall"/>
+   </properties>
+  </tile>
+  <tile id="513">
+   <properties>
+    <property name="Type" value="Wall"/>
    </properties>
   </tile>
  </tileset>
