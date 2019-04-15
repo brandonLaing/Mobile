@@ -2,22 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Xml;
+using System;
+using System.Linq;
 
 public class LoadMap : MonoBehaviour
 {
   [SerializeField]
   private TextAsset tiledAsset;
+  [SerializeField]
+  private GameObject objectsLayer;
 
   private Sprite[] sprites;
   private Dictionary<int, XmlNode> allSpecialTiles;
 
   private int mapWidth, mapHeight, tileSize;
 
+  private List<GameObject> AllObjects = new List<GameObject>();
   private void Start()
   {
     LoadXml();
   }
 
+  /// <summary>
+  /// Loads the XML map into the game
+  /// </summary>
   private void LoadXml()
   {
     XmlDocument xmlDoc = new XmlDocument();
@@ -42,7 +50,7 @@ public class LoadMap : MonoBehaviour
     int layerCount = 0;
     foreach (XmlNode layer in allLayers)
     {
-      BuildLayer(layer, mapWidth, mapHeight, tileSize, layer.Attributes["name"].Value, layerCount);
+      BuildNonInteractableLayer(layer, mapWidth, mapHeight, tileSize, layer.Attributes["name"].Value, layerCount);
       layerCount++;
     }
 
@@ -54,14 +62,41 @@ public class LoadMap : MonoBehaviour
       allSpecialTiles.Add(int.Parse(node.Attributes["id"].Value), node);
     }
 
-    Debug.Log(special.Count);
-
-    BuildObjectLayer(mapNode.SelectSingleNode("objectgroup"), tileSize, layerCount);
+    BuildObject(mapNode.SelectSingleNode("tileset").SelectNodes("tile"));
+    BuildObjectGroup(mapNode.SelectSingleNode("objectgroup"), tileSize, layerCount);
   }
 
+  /// <summary>
+  /// Builds all the objects on the map
+  /// </summary>
+  /// <param name="xmlNodeList"></param>
+  private void BuildObject(XmlNodeList xmlNodeList)
+  {
+    foreach (XmlNode node in xmlNodeList)
+    {
+      allSpecialTiles.Add(int.Parse(node.Attributes["id"].Value), node);
+      GameObject currentTile = new GameObject();
+      currentTile.transform.parent = objectsLayer.transform;
+      foreach (XmlNode property in node.SelectSingleNode("properties").SelectNodes("property"))
+      {
+        if (property.Attributes["name"].Value == "Type")
+        {
+          AddSpecificStuff(currentTile, property.Attributes["value"].Value);
+        }
+      }
+    }
+  }
 
-
-  private void BuildLayer(XmlNode mapNode, int mapWidth, int mapHeight, int tileWidth, string layerName, int layerCount)
+  /// <summary>
+  /// Builds non interactable Layer
+  /// </summary>
+  /// <param name="mapNode"></param>
+  /// <param name="mapWidth"></param>
+  /// <param name="mapHeight"></param>
+  /// <param name="tileWidth"></param>
+  /// <param name="layerName"></param>
+  /// <param name="layerCount"></param>
+  private void BuildNonInteractableLayer(XmlNode mapNode, int mapWidth, int mapHeight, int tileWidth, string layerName, int layerCount)
   {
     GameObject layerObject = new GameObject(layerName);
     layerObject.transform.parent = this.transform;
@@ -97,26 +132,13 @@ public class LoadMap : MonoBehaviour
     }
   }
 
-  private void AddSpecificStuff(GameObject editingObject, params ObjectTypes[] values)
-  {
-    foreach (ObjectTypes type in values)
-    {
-      switch (type)
-      {
-        case ObjectTypes.Wall:
-          editingObject.AddComponent<Collider2D>();
-          break;
-        case ObjectTypes.Door:
-          break;
-        case ObjectTypes.Pickup:
-          break;
-        case ObjectTypes.Destructable:
-          break;
-      }
-    }
-  }
-
-  private void BuildObjectLayer(XmlNode objectLayer, int tileWidth, int layerCount)
+  /// <summary>
+  /// Builds the object group
+  /// </summary>
+  /// <param name="objectLayer"></param>
+  /// <param name="tileWidth"></param>
+  /// <param name="layerCount"></param>
+  private void BuildObjectGroup(XmlNode objectLayer, int tileWidth, int layerCount)
   {
     GameObject layerObject = new GameObject("ObjectLayer");
     layerObject.transform.parent = this.transform;
@@ -152,5 +174,45 @@ public class LoadMap : MonoBehaviour
       }
     }
     layerCount++;
+  }
+
+  /// <summary>
+  /// Adds certain items to the object based on its type
+  /// </summary>
+  /// <param name="editingObject"></param>
+  /// <param name="values"></param>
+  private void AddSpecificStuff(GameObject editingObject, params ObjectTypes[] values)
+  {
+    foreach (ObjectTypes type in values)
+    {
+      switch (type)
+      {
+        case ObjectTypes.Wall:
+          editingObject.AddComponent<BoxCollider2D>();
+          break;
+        case ObjectTypes.Door:
+          editingObject.AddComponent<Door>();
+          break;
+        case ObjectTypes.Pickup:
+          editingObject.AddComponent<Pickup>();
+          break;
+        case ObjectTypes.Destructable:
+          editingObject.AddComponent<Destructable>();
+          break;
+      }
+    }
+  }
+
+  /// <summary>
+  /// Add adds certain items to the object based on its type
+  /// </summary>
+  /// <param name="editingObject"></param>
+  /// <param name="valueNames"></param>
+  private void AddSpecificStuff(GameObject editingObject, string valueNames)
+  {
+    List<string> enumNames = Enum.GetNames(typeof(ObjectTypes)).OfType<string>().ToList();
+
+    if (enumNames.Contains(valueNames))
+      AddSpecificStuff(editingObject, (ObjectTypes)Enum.Parse(typeof(ObjectTypes), valueNames, true));
   }
 }
