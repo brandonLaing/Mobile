@@ -141,8 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d61b04633fed2f14ab3c92ee3441dcf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tiledAsset: {fileID: 4900000, guid: c30418a41f4bf664fb2cb4a7fbff2eb7, type: 3}
-  sprites: []
+  tiledAsset: {fileID: 4900000, guid: 7e0b07c4a07d1464d9d186d294cbdc6f, type: 3}
 --- !u!4 &104735433
 Transform:
   m_ObjectHideFlags: 0

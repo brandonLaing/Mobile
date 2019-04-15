@@ -1,6 +1,228 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="67">
- <tileset firstgid="1" source="Pickups.xml"/>
+ <tileset firstgid="1" name="BaseSet2" tilewidth="16" tileheight="16" spacing="1" tilecount="522" columns="29">
+  <image source="Resources/roguelikeDungeon_transparent.png" width="492" height="305"/>
+  <tile id="21">
+   <properties>
+    <property name="Destroyable" type="bool" value="true"/>
+    <property name="DoorHeight" type="int" value="2"/>
+    <property name="DoorPositionX" type="int" value="1"/>
+    <property name="DoorPositionY" type="int" value="2"/>
+    <property name="DoorWidth" type="int" value="2"/>
+    <property name="Type" value="Door"/>
+   </properties>
+  </tile>
+  <tile id="28">
+   <properties>
+    <property name="Destroyable" type="bool" value="true"/>
+    <property name="DoorHeight" type="int" value="2"/>
+    <property name="DoorPositionX" type="int" value="2"/>
+    <property name="DoorPositionY" type="int" value="2"/>
+    <property name="DoorWidth" type="int" value="2"/>
+    <property name="Type" value="Door"/>
+   </properties>
+  </tile>
+  <tile id="50">
+   <properties>
+    <property name="Destroyable" type="bool" value="true"/>
+    <property name="DoorHeight" type="int" value="2"/>
+    <property name="DoorPositionX" type="int" value="1"/>
+    <property name="DoorPositionY" type="int" value="1"/>
+    <property name="DoorWidth" type="int" value="2"/>
+    <property name="Type" value="Door"/>
+   </properties>
+  </tile>
+  <tile id="57">
+   <properties>
+    <property name="Destroyable" type="bool" value="true"/>
+    <property name="DoorHeight" type="int" value="2"/>
+    <property name="DoorPositionX" type="int" value="2"/>
+    <property name="DoorPositionY" type="int" value="1"/>
+    <property name="DoorWidth" type="int" value="2"/>
+    <property name="Type" value="Door"/>
+   </properties>
+  </tile>
+  <tile id="87">
+   <properties>
+    <property name="Type" value="Pickup"/>
+   </properties>
+  </tile>
+  <tile id="88">
+   <properties>
+    <property name="Type" value="Pickup"/>
+   </properties>
+  </tile>
+  <tile id="89">
+   <properties>
+    <property name="Type" value="Pickup"/>
+   </properties>
+  </tile>
+  <tile id="90">
+   <properties>
+    <property name="Type" value="Pickup"/>
+   </properties>
+  </tile>
+  <tile id="116">
+   <properties>
+    <property name="Type" value="Pickup"/>
+   </properties>
+  </tile>
+  <tile id="117">
+   <properties>
+    <property name="Type" value="Pickup"/>
+   </properties>
+  </tile>
+  <tile id="118">
+   <properties>
+    <property name="Type" value="Pickup"/>
+   </properties>
+  </tile>
+  <tile id="119">
+   <properties>
+    <property name="Type" value="Pickup"/>
+   </properties>
+  </tile>
+  <tile id="311">
+   <properties>
+    <property name="Destroyable" type="bool" value="true"/>
+    <property name="DoorHeight" type="int" value="3"/>
+    <property name="DoorPositionX" type="int" value="1"/>
+    <property name="DoorPositionY" type="int" value="3"/>
+    <property name="DoorWidth" type="int" value="3"/>
+    <property name="Type" value="Door"/>
+   </properties>
+  </tile>
+  <tile id="312">
+   <properties>
+    <property name="Destroyable" type="bool" value="true"/>
+    <property name="DoorHeight" type="int" value="3"/>
+    <property name="DoorPositionX" type="int" value="2"/>
+    <property name="DoorPositionY" type="int" value="3"/>
+    <property name="DoorWidth" type="int" value="3"/>
+    <property name="Type" value="Door"/>
+   </properties>
+  </tile>
+  <tile id="313">
+   <properties>
+    <property name="Destroyable" type="bool" value="true"/>
+    <property name="DoorHeight" type="int" value="3"/>
+    <property name="DoorPositionX" type="int" value="3"/>
+    <property name="DoorPositionY" type="int" value="3"/>
+    <property name="DoorWidth" type="int" value="3"/>
+    <property name="Type" value="Door"/>
+   </properties>
+  </tile>
+  <tile id="340">
+   <properties>
+    <property name="Destroyable" type="bool" value="true"/>
+    <property name="DoorHeight" type="int" value="3"/>
+    <property name="DoorPositionX" type="int" value="1"/>
+    <property name="DoorPositionY" type="int" value="2"/>
+    <property name="DoorWidth" type="int" value="3"/>
+    <property name="Type" value="Door"/>
+   </properties>
+  </tile>
+  <tile id="341">
+   <properties>
+    <property name="Destroyable" type="bool" value="true"/>
+    <property name="DoorHeight" type="int" value="3"/>
+    <property name="DoorPositionX" type="int" value="2"/>
+    <property name="DoorPositionY" type="int" value="2"/>
+    <property name="DoorWidth" type="int" value="3"/>
+    <property name="Type" value="Door"/>
+   </properties>
+  </tile>
+  <tile id="342">
+   <properties>
+    <property name="Destroyable" type="bool" value="true"/>
+    <property name="DoorHeight" type="int" value="3"/>
+    <property name="DoorPositionX" type="int" value="3"/>
+    <property name="DoorPositionY" type="int" value="2"/>
+    <property name="DoorWidth" type="int" value="3"/>
+    <property name="Type" value="Door"/>
+   </properties>
+  </tile>
+  <tile id="369">
+   <properties>
+    <property name="Destroyable" type="bool" value="true"/>
+    <property name="DoorHeight" type="int" value="3"/>
+    <property name="DoorPositionX" type="int" value="1"/>
+    <property name="DoorPositionY" type="int" value="1"/>
+    <property name="DoorWidth" type="int" value="3"/>
+    <property name="Type" value="Door"/>
+   </properties>
+  </tile>
+  <tile id="370">
+   <properties>
+    <property name="Destroyable" type="bool" value="true"/>
+    <property name="DoorHeight" type="int" value="3"/>
+    <property name="DoorPositionX" type="int" value="2"/>
+    <property name="DoorPositionY" type="int" value="1"/>
+    <property name="DoorWidth" type="int" value="3"/>
+    <property name="Type" value="Door"/>
+   </properties>
+  </tile>
+  <tile id="371">
+   <properties>
+    <property name="Destroyable" type="bool" value="true"/>
+    <property name="DoorHeight" type="int" value="3"/>
+    <property name="DoorPositionX" type="int" value="3"/>
+    <property name="DoorPositionY" type="int" value="1"/>
+    <property name="DoorWidth" type="int" value="3"/>
+    <property name="Type" value="Door"/>
+   </properties>
+  </tile>
+  <tile id="480">
+   <properties>
+    <property name="Type" value="Wall"/>
+   </properties>
+  </tile>
+  <tile id="481">
+   <properties>
+    <property name="Type" value="Wall"/>
+   </properties>
+  </tile>
+  <tile id="482">
+   <properties>
+    <property name="Type" value="Wall"/>
+   </properties>
+  </tile>
+  <tile id="483">
+   <properties>
+    <property name="Type" value="Wall"/>
+   </properties>
+  </tile>
+  <tile id="484">
+   <properties>
+    <property name="Type" value="Wall"/>
+   </properties>
+  </tile>
+  <tile id="509">
+   <properties>
+    <property name="Type" value="Wall"/>
+   </properties>
+  </tile>
+  <tile id="510">
+   <properties>
+    <property name="Type" value="Wall"/>
+   </properties>
+  </tile>
+  <tile id="511">
+   <properties>
+    <property name="Type" value="Wall"/>
+   </properties>
+  </tile>
+  <tile id="512">
+   <properties>
+    <property name="Type" value="Wall"/>
+   </properties>
+  </tile>
+  <tile id="513">
+   <properties>
+    <property name="Type" value="Wall"/>
+   </properties>
+  </tile>
+ </tileset>
  <layer id="1" name="Background" width="50" height="50" locked="1">
   <data encoding="csv">
 425,454,426,452,425,423,454,454,424,427,427,427,452,454,427,455,423,452,452,426,424,423,424,426,455,426,426,455,427,425,455,424,426,424,452,426,423,454,456,423,427,423,455,425,453,427,426,426,453,454,

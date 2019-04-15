@@ -7,11 +7,11 @@ public class LoadMap : MonoBehaviour
 {
   [SerializeField]
   private TextAsset tiledAsset;
-  [SerializeField]
+
   private Sprite[] sprites;
+  private Dictionary<int, XmlNode> allSpecialTiles;
 
-  Dictionary<int, XmlNode> allSpecialTiles;
-
+  private int mapWidth, mapHeight, tileSize;
 
   private void Start()
   {
@@ -25,16 +25,15 @@ public class LoadMap : MonoBehaviour
 
     XmlNode mapNode = xmlDoc.SelectSingleNode("map");
 
-    int mapWidth = int.Parse(mapNode.Attributes["width"].Value);
-    int mapHeight = int.Parse(mapNode.Attributes["height"].Value);
-    int tileWidth = int.Parse(mapNode.Attributes["tilewidth"].Value);
-    int tileHeight = int.Parse(mapNode.Attributes["tileheight"].Value);
+    mapWidth = int.Parse(mapNode.Attributes["width"].Value);
+    mapHeight = int.Parse(mapNode.Attributes["height"].Value);
+    tileSize = int.Parse(mapNode.Attributes["tilewidth"].Value);
 
     string[] splitImageName = mapNode.SelectSingleNode("tileset/image").Attributes["source"].Value.Split('/');
     string imageName = imageName = splitImageName[splitImageName.Length - 1].Split('.')[0]; ;
     
 
-    Debug.Log($"Map Width: {mapWidth}\nMap Height: {mapHeight}\nTileWidth: {tileWidth}\nTileHeight: {tileHeight}\nImageName: {imageName}");
+    Debug.Log($"Map Width: {mapWidth}\nMap Height: {mapHeight}\nTileWidth: {tileSize}\nTileHeight: {tileSize}\nImageName: {imageName}");
 
     sprites = Resources.LoadAll<Sprite>(imageName);
 
@@ -43,7 +42,7 @@ public class LoadMap : MonoBehaviour
     int layerCount = 0;
     foreach (XmlNode layer in allLayers)
     {
-      BuildLayer(layer, mapWidth, mapHeight, tileWidth, layer.Attributes["name"].Value, layerCount);
+      BuildLayer(layer, mapWidth, mapHeight, tileSize, layer.Attributes["name"].Value, layerCount);
       layerCount++;
     }
 
@@ -57,7 +56,7 @@ public class LoadMap : MonoBehaviour
 
     Debug.Log(special.Count);
 
-    BuildObjectLayer(mapNode.SelectSingleNode("objectgroup"), tileWidth, layerCount);
+    BuildObjectLayer(mapNode.SelectSingleNode("objectgroup"), tileSize, layerCount);
   }
 
 
@@ -87,7 +86,8 @@ public class LoadMap : MonoBehaviour
           spriteObject.transform.position = new Vector3(xPos, yPos);
           spriteObject.GetComponent<SpriteRenderer>().sortingOrder = layerCount;
 
-          AddSpecificStuff(spriteObject, layerName);
+          if (layerName == "Walls")
+            AddSpecificStuff(spriteObject, ObjectTypes.Wall);
 
         }
         xPos += spriteSize;
@@ -97,13 +97,22 @@ public class LoadMap : MonoBehaviour
     }
   }
 
-  private void AddSpecificStuff(GameObject sprite, string layerName)
+  private void AddSpecificStuff(GameObject editingObject, params ObjectTypes[] values)
   {
-    switch(layerName)
+    foreach (ObjectTypes type in values)
     {
-      case "Walls":
-        sprite.AddComponent<BoxCollider2D>();
-        break;
+      switch (type)
+      {
+        case ObjectTypes.Wall:
+          editingObject.AddComponent<Collider2D>();
+          break;
+        case ObjectTypes.Door:
+          break;
+        case ObjectTypes.Pickup:
+          break;
+        case ObjectTypes.Destructable:
+          break;
+      }
     }
   }
 
