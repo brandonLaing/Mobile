@@ -16,8 +16,6 @@ public class LoadMap : MonoBehaviour
   private Dictionary<int, XmlNode> allSpecialTiles;
 
   private int mapWidth, mapHeight, tileSize;
-
-  private List<GameObject> AllObjects = new List<GameObject>();
   private void Start()
   {
     LoadXml();
@@ -62,8 +60,10 @@ public class LoadMap : MonoBehaviour
       allSpecialTiles.Add(int.Parse(node.Attributes["id"].Value), node);
     }
 
-    BuildObject(mapNode.SelectSingleNode("tileset").SelectNodes("tile"));
-    BuildObjectGroup(mapNode.SelectSingleNode("objectgroup"), tileSize, layerCount);
+    foreach (XmlNode objectGroupNode in mapNode.SelectNodes("objectgroup"))
+    {
+      BuildObjectGroup(objectGroupNode, tileSize, layerCount);
+    }
   }
 
   /// <summary>
@@ -74,7 +74,6 @@ public class LoadMap : MonoBehaviour
   {
     foreach (XmlNode node in xmlNodeList)
     {
-      allSpecialTiles.Add(int.Parse(node.Attributes["id"].Value), node);
       GameObject currentTile = new GameObject();
       currentTile.transform.parent = objectsLayer.transform;
       foreach (XmlNode property in node.SelectSingleNode("properties").SelectNodes("property"))
@@ -161,16 +160,36 @@ public class LoadMap : MonoBehaviour
 
         ingameObject.transform.position = objectPosition;
 
+        int gid = int.Parse(node.Attributes["gid"].Value) - 1;
+        if (allSpecialTiles.ContainsKey(gid))
+        {
+          //Debug.Log("found gid");
+          foreach (XmlNode gidNode in allSpecialTiles[gid].SelectSingleNode("properties").SelectNodes("property"))
+          {
+            //Debug.Log($"Going though property {gidNode.Attributes["name"].Value}");
+            if (gidNode.Attributes["name"].Value == "Type")
+            {
+              //Debug.Log("Found Type with value of " + gidNode.Attributes["value"].Value);
+              AddSpecificStuff(ingameObject, gidNode.Attributes["value"].Value);
+            }
+          }
+        }
+
       }
       else
       {
         string objectType = node.SelectSingleNode("properties").SelectSingleNode("property").Attributes["name"].Value;
-        GameObject playerSpawnPoint = new GameObject(objectType);
+        if (objectType == "playerSpawn")
+        {
+          GameObject playerSpawnPoint = new GameObject(objectType);
+          playerSpawnPoint.name = "PlayerSpawnPoint";
+          Vector2 objectPosition = new Vector2((float.Parse(node.Attributes["x"].Value) / tileWidth),
+            -(float.Parse(node.Attributes["y"].Value) / tileWidth) + 1);
 
-        Vector2 objectPosition = new Vector2((float.Parse(node.Attributes["x"].Value) / tileWidth),
-          -(float.Parse(node.Attributes["y"].Value) / tileWidth) + 1);
+          playerSpawnPoint.transform.position = objectPosition;
 
-        playerSpawnPoint.transform.position = objectPosition;
+          GameObject.FindGameObjectWithTag("Player").transform.position = objectPosition;
+        }
       }
     }
     layerCount++;
@@ -189,6 +208,11 @@ public class LoadMap : MonoBehaviour
       {
         case ObjectTypes.Wall:
           editingObject.AddComponent<BoxCollider2D>();
+          Rigidbody2D rb = editingObject.AddComponent<Rigidbody2D>();
+          rb.isKinematic = true;
+          rb.simulated = false;
+          editingObject.isStatic = true;
+            
           break;
         case ObjectTypes.Door:
           editingObject.AddComponent<Door>();
@@ -210,6 +234,9 @@ public class LoadMap : MonoBehaviour
   /// <param name="valueNames"></param>
   private void AddSpecificStuff(GameObject editingObject, string valueNames)
   {
+    if (valueNames == "Pickup")
+      Debug.Log(valueNames);
+
     List<string> enumNames = Enum.GetNames(typeof(ObjectTypes)).OfType<string>().ToList();
 
     if (enumNames.Contains(valueNames))
