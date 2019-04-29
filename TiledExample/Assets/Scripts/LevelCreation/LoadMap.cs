@@ -208,20 +208,22 @@ public class LoadMap : MonoBehaviour
       {
         case ObjectTypes.Wall:
           editingObject.AddComponent<BoxCollider2D>();
-          Rigidbody2D rb = editingObject.AddComponent<Rigidbody2D>();
-          rb.isKinematic = true;
-          rb.simulated = false;
           editingObject.isStatic = true;
-            
           break;
         case ObjectTypes.Door:
           editingObject.AddComponent<Door>();
           break;
-        case ObjectTypes.Pickup:
-          editingObject.AddComponent<Pickup>();
+        case ObjectTypes.Chest:
+          editingObject.AddComponent<Chest>();
           break;
         case ObjectTypes.Destructable:
           editingObject.AddComponent<Destructable>();
+          break;
+        case ObjectTypes.HealthPickup:
+          editingObject.AddComponent<HealthPickup>();
+          break;
+        case ObjectTypes.TansitionDoor:
+          editingObject.AddComponent<TransitionDoor>();
           break;
       }
     }

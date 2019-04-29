@@ -1,4 +1,4 @@
 ﻿public enum ObjectTypes
 {
-  Wall, Door, Pickup, Destructable
+  Wall, Door, HealthPickup, Destructable, Chest, TansitionDoor
 }

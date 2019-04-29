@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Door : MonoBehaviour, IInteractable
+using UnityEngine.SceneManagement;
+public class TransitionDoor : MonoBehaviour, IInteractable
 {
   #region Variables
-
+  public string nextScene;
   #endregion
 
   #region Mono Behavior Functions
@@ -15,7 +15,7 @@ public class Door : MonoBehaviour, IInteractable
   #region Functions
   public void Interact()
   {
-    Destroy(this.gameObject);
+    SceneManager.LoadScene(nextScene);
   }
   #endregion
 }

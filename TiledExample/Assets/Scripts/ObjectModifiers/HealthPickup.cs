@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Door : MonoBehaviour, IInteractable
+public class HealthPickup : MonoBehaviour
 {
   #region Variables
 
@@ -13,9 +13,6 @@ public class Door : MonoBehaviour, IInteractable
   #endregion
 
   #region Functions
-  public void Interact()
-  {
-    Destroy(this.gameObject);
-  }
+
   #endregion
 }
