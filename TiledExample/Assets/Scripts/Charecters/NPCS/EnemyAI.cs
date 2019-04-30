@@ -54,7 +54,7 @@ public class EnemyAI : MonoBehaviour
     if (foundObjects.Length > 0)
     {
       bool foundPlayer = false;
-      for (int i = 0; i < foundObjects.Length || !foundPlayer; i++)
+      for (int i = 0; i < foundObjects.Length && !foundPlayer; i++)
       {
         for (Transform trans = foundObjects[i].transform; trans != null; trans = trans.parent)
         {

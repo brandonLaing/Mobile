@@ -14,14 +14,15 @@ public class NPCDeath : AbstractDeath
   /// </summary>
   public override void Die()
   {
-    if (Application.isPlaying)
+    if (deathParticle != null)
     {
-      if (deathParticle != null)
-      {
-        Debug.Log("making particle");
-        Instantiate(deathParticle, transform.position, Quaternion.identity);
-        Destroy(this.gameObject);
-      }
+      Debug.Log("making particle");
+      Instantiate(deathParticle, transform.position, Quaternion.identity);
+      Destroy(this.gameObject);
+    }
+    else
+    {
+      Destroy(this.gameObject);
     }
   }
 }
