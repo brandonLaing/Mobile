@@ -188,7 +188,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4523617080328094466}
-  - component: {fileID: 4523617080328094478}
   - component: {fileID: 4523617080328094477}
   - component: {fileID: 4523617080328094476}
   - component: {fileID: 4523617080328094467}
@@ -217,7 +216,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4523617080328094478
+--- !u!114 &4523617080328094477
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -226,28 +225,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4523617080328094465}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ad98299d2e2d21478ea1c8e2fa22df1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  range: 1
-  areaOfEffect: 5.3
-  damage: 10
-  isPlayer: 0
---- !u!114 &4523617080328094477
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4523617080328094465}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fdff3dcabc4e5a47985cf012b1ffee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   aiState: 0
   startingPosition: {x: 0, y: 0}
-  chaseRange: 4.12
+  chaseRange: 5
   targetObject: {fileID: 0}
   attackTime: 1.12
 --- !u!114 &4523617080328094476

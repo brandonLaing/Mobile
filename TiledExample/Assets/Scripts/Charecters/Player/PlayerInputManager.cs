@@ -30,5 +30,21 @@ public class PlayerInputManager : MonoBehaviour
         }
       }
     }
+
+    if (Input.GetMouseButtonDown(1))
+    {
+      Debug.Log("Mouse down");
+      Vector2 touchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+      RaycastHit hit;
+      if (Physics.Raycast(Camera.main.ScreenPointToRay(new Vector3(touchPosition.x, touchPosition.y)), out hit, 100))
+      {
+        if (hit.transform.GetComponent<IInteractable>() != null)
+        {
+          OnInteract(hit.transform);
+          return;
+        }
+      }
+      OnAttackAttemp(touchPosition);
+    }
   }
 }

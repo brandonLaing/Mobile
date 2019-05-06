@@ -21,7 +21,6 @@ public class LoadMap : MonoBehaviour
   private void Start()
   {
     LoadXml();
-    Debug.Log("HElp");
   }
 
   /// <summary>
@@ -154,12 +153,10 @@ public class LoadMap : MonoBehaviour
       }
       else
       {
-        Debug.Log("HElp1");
         XmlNode properties = node.SelectSingleNode("properties");
         foreach (XmlNode prop in properties.SelectNodes("property"))
         {
           string name = prop.Attributes["name"].Value;
-          Debug.Log(prop);
           if (name == "playerSpawn")
           {
             GameObject playerSpawnPoint = new GameObject(name)
@@ -175,7 +172,6 @@ public class LoadMap : MonoBehaviour
           }
           else if (name == "EnemySpawn")
           {
-            Debug.Log("HELP4");
             Vector2 objectPosition = new Vector2((float.Parse(node.Attributes["x"].Value) / tileWidth),
               -(float.Parse(node.Attributes["y"].Value) / tileWidth) + 1);
 
@@ -186,7 +182,7 @@ public class LoadMap : MonoBehaviour
                 enemy.GetComponent<HealthSystem>().Health = int.Parse(prop2.Attributes["value"].Value);
 
               if (prop2.Attributes["name"].Value == "MaxHealth")
-                enemy.GetComponent<HealthSystem>().healthMax = int.Parse(prop2.Attributes["MaxHealth"].Value);
+                enemy.GetComponent<HealthSystem>().healthMax = int.Parse(prop2.Attributes["value"].Value);
 
               EnemyAI ai = enemy.GetComponent<EnemyAI>();
               if (prop2.Attributes["name"].Value == "AttackTime")
@@ -196,18 +192,13 @@ public class LoadMap : MonoBehaviour
                 ai.chaseRange = float.Parse(prop2.Attributes["value"].Value);
 
               AbstractAttack attack;
-              if (properties.SelectSingleNode("property").Attributes["IsMelee"].Value == bool.TrueString)
+              if (prop2.Attributes["name"].Value == "IsMelee")
               {
-                attack = enemy.AddComponent<MeleeAttack>();
+                if (prop2.Attributes["value"].Value == bool.TrueString)
+                  attack = enemy.AddComponent<MeleeAttack>();
+                else
+                  attack = enemy.AddComponent<RangeAttack>();
               }
-              else
-              {
-                attack = enemy.AddComponent<RangeAttack>();
-              }
-
-              attack.areaOfEffect = float.Parse(properties.SelectSingleNode("property").Attributes["AreaOfEffect"].Value);
-              attack.damage = int.Parse(properties.SelectSingleNode("property").Attributes["Damage"].Value);
-              attack.range = float.Parse(properties.SelectSingleNode("property").Attributes["Range"].Value);
             }
           }
         }
@@ -257,8 +248,8 @@ public class LoadMap : MonoBehaviour
   /// <param name="valueNames"></param>
   private void AddSpecificStuff(GameObject editingObject, string valueNames)
   {
-    if (valueNames == "Pickup")
-      Debug.Log(valueNames);
+    //if (valueNames == "Pickup")
+      //Debug.Log(valueNames);
 
     List<string> enumNames = Enum.GetNames(typeof(ObjectTypes)).OfType<string>().ToList();
 
