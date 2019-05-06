@@ -7,13 +7,12 @@ public class HealthSystem : MonoBehaviour
 {
   #region Variables
   /// <summary>
-  /// Current ammount of health
+  /// Current amount of health
   /// </summary>
   private int _health = 10;
 
-  [SerializeField]
-  [Tooltip("Maximum ammount of health allowed")]
-  private int healthMax = 10;
+  [Tooltip("Maximum amount of health allowed")]
+  public int healthMax = 10;
 
   /// <summary>
   /// Called when units health gets to or bellow 0
@@ -44,22 +43,33 @@ public class HealthSystem : MonoBehaviour
   private void Awake()
   {
     if (GetComponent<ICanDie>() == null)
-      Debug.LogWarning($"Found no death script. No effect appon death will happen for {transform.name}");
+      Debug.LogWarning($"Found no death script. No effect upon death will happen for {transform.name}");
   }
   #endregion
 
   #region Methods
   /// <summary>
-  /// Adds a certain ammount of health to the player
+  /// Sets up the variables from map loader
   /// </summary>
-  /// <param name="ammountToHeal">Ammount to be added to the player</param>
+  /// <param name="health">Starting health of the unit</param>
+  /// <param name="max">Max health the play can be at</param>
+  public void Initialize(int health, int max)
+  {
+    _health = health;
+    healthMax = max;
+  }
+
+  /// <summary>
+  /// Adds a certain amount of health to the player
+  /// </summary>
+  /// <param name="ammountToHeal">Amount to be added to the player</param>
   public void Heal(int ammountToHeal) =>
     Health += ammountToHeal;
 
   /// <summary>
-  /// Removes a certain ammount of health from the player
+  /// Removes a certain amount of health from the player
   /// </summary>
-  /// <param name="ammountToDamage">Ammount to be removed from the player</param>
+  /// <param name="ammountToDamage">Amount to be removed from the player</param>
   public void Damage(int ammountToDamage) =>
     Health -= ammountToDamage;
 

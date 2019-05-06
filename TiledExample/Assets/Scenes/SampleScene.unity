@@ -141,8 +141,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d61b04633fed2f14ab3c92ee3441dcf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tiledAsset: {fileID: 4900000, guid: 7e0b07c4a07d1464d9d186d294cbdc6f, type: 3}
-  objectsLayer: {fileID: 419563705}
+  tiledAsset: {fileID: 4900000, guid: 36a26f11a6b244849bfc92166869a85e, type: 3}
+  enempyPrefab: {fileID: 4523617080328094465, guid: 2ba982ba047eecf4d99b0dde589a10c1,
+    type: 3}
 --- !u!4 &104735433
 Transform:
   m_ObjectHideFlags: 0

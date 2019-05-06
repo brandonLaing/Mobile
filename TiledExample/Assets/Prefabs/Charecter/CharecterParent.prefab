@@ -1205,6 +1205,10 @@ GameObject:
   m_Component:
   - component: {fileID: 739637047593007572}
   - component: {fileID: 739637047593007575}
+  - component: {fileID: 2674070276492905509}
+  - component: {fileID: 2759030837137144032}
+  - component: {fileID: 6948763375841331367}
+  - component: {fileID: 5391409540859533077}
   - component: {fileID: 739637047593007569}
   - component: {fileID: 933440093}
   m_Layer: 0
@@ -1245,6 +1249,60 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+--- !u!114 &2674070276492905509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 739637047593007573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87ec2649fc3adcd448d1c6bec7e0c2fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthMax: 10
+--- !u!114 &2759030837137144032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 739637047593007573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ad98299d2e2d21478ea1c8e2fa22df1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 1
+  areaOfEffect: 2
+  damage: 5
+  isPlayer: 1
+--- !u!114 &6948763375841331367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 739637047593007573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6aa06e03f8f344e4fa807ccf0f0727bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5391409540859533077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 739637047593007573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae48427519926a44295f4b3ad5c45c31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionRange: 4
 --- !u!61 &739637047593007569
 BoxCollider2D:
   m_ObjectHideFlags: 0

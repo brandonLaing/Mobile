@@ -11,7 +11,7 @@ public class EnemyAI : MonoBehaviour
   public Transform targetObject = null;
   public event Action<Vector2> OnTargetLocationSet = delegate { };
   public float attackTime = 1;
-  public AbstractAttack attack;
+  private AbstractAttack attack;
 
   private void Awake()
   {
@@ -45,7 +45,8 @@ public class EnemyAI : MonoBehaviour
 
   private void ReturnToStart()
   {
-    OnTargetLocationSet(startingPosition);
+    if (Vector2.Distance(transform.position, startingPosition) > 0.2F)
+      OnTargetLocationSet(startingPosition);
   }
 
   private void CheckForEnemy()
@@ -58,7 +59,7 @@ public class EnemyAI : MonoBehaviour
       {
         for (Transform trans = foundObjects[i].transform; trans != null; trans = trans.parent)
         {
-          if (trans.GetComponent<MovementSystem>() != null)
+          if (trans.CompareTag("Player"))
           {
             targetObject = trans;
             aiState = EnemyAIState.Chase;

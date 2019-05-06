@@ -60,7 +60,7 @@ public class MovementSystem : MonoBehaviour
 
   private void TargetPosition(Vector2 location)
   {
-    transform.Translate(location * moveSpeed * Time.deltaTime);
+    transform.Translate(((Vector3)location - transform.position).normalized * moveSpeed * Time.deltaTime);
   }
   
   private void FixedUpdate()

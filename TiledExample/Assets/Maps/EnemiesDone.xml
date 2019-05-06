@@ -445,6 +445,7 @@
     <property name="IsMelee" type="bool" value="false"/>
     <property name="MaxHealth" type="int" value="20"/>
     <property name="Range" type="float" value="1"/>
+    <property name="name" value="EnemySpawn"/>
    </properties>
   </object>
   <object id="111" x="544" y="576" width="16" height="16">
@@ -457,6 +458,7 @@
     <property name="IsMelee" type="bool" value="false"/>
     <property name="MaxHealth" type="int" value="20"/>
     <property name="Range" type="float" value="1"/>
+    <property name="name" value="EnemySpawn"/>
    </properties>
   </object>
   <object id="112" x="560" y="480" width="16" height="16">
@@ -469,6 +471,7 @@
     <property name="IsMelee" type="bool" value="false"/>
     <property name="MaxHealth" type="int" value="20"/>
     <property name="Range" type="float" value="1"/>
+    <property name="name" value="EnemySpawn"/>
    </properties>
   </object>
   <object id="113" x="640" y="544" width="16" height="16">
@@ -481,6 +484,7 @@
     <property name="IsMelee" type="bool" value="false"/>
     <property name="MaxHealth" type="int" value="20"/>
     <property name="Range" type="float" value="1"/>
+    <property name="name" value="EnemySpawn"/>
    </properties>
   </object>
   <object id="114" x="224" y="544" width="16" height="16">
@@ -493,6 +497,7 @@
     <property name="IsMelee" type="bool" value="false"/>
     <property name="MaxHealth" type="int" value="20"/>
     <property name="Range" type="float" value="1"/>
+    <property name="name" value="EnemySpawn"/>
    </properties>
   </object>
   <object id="115" x="192" y="608" width="16" height="16">
@@ -505,6 +510,7 @@
     <property name="IsMelee" type="bool" value="false"/>
     <property name="MaxHealth" type="int" value="20"/>
     <property name="Range" type="float" value="1"/>
+    <property name="name" value="EnemySpawn"/>
    </properties>
   </object>
   <object id="116" x="256" y="640" width="16" height="16">
@@ -517,6 +523,7 @@
     <property name="IsMelee" type="bool" value="false"/>
     <property name="MaxHealth" type="int" value="20"/>
     <property name="Range" type="float" value="1"/>
+    <property name="name" value="EnemySpawn"/>
    </properties>
   </object>
   <object id="117" x="112" y="368" width="16" height="16">
@@ -529,6 +536,7 @@
     <property name="IsMelee" type="bool" value="false"/>
     <property name="MaxHealth" type="int" value="20"/>
     <property name="Range" type="float" value="1"/>
+    <property name="name" value="EnemySpawn"/>
    </properties>
   </object>
   <object id="118" x="240" y="304" width="16" height="16">
@@ -541,6 +549,7 @@
     <property name="IsMelee" type="bool" value="false"/>
     <property name="MaxHealth" type="int" value="20"/>
     <property name="Range" type="float" value="1"/>
+    <property name="name" value="EnemySpawn"/>
    </properties>
   </object>
   <object id="119" x="96" y="240" width="16" height="16">
@@ -554,6 +563,7 @@
     <property name="IsMelee" type="bool" value="false"/>
     <property name="MaxHealth" type="int" value="20"/>
     <property name="Range" type="float" value="1"/>
+    <property name="name" value="EnemySpawn"/>
    </properties>
   </object>
   <object id="120" x="256" y="224" width="16" height="16">
@@ -566,6 +576,7 @@
     <property name="IsMelee" type="bool" value="false"/>
     <property name="MaxHealth" type="int" value="20"/>
     <property name="Range" type="float" value="1"/>
+    <property name="name" value="EnemySpawn"/>
    </properties>
   </object>
   <object id="121" x="144" y="176" width="16" height="16">
@@ -578,6 +589,7 @@
     <property name="IsMelee" type="bool" value="false"/>
     <property name="MaxHealth" type="int" value="20"/>
     <property name="Range" type="float" value="1"/>
+    <property name="name" value="EnemySpawn"/>
    </properties>
   </object>
   <object id="122" x="240" y="176" width="16" height="16">
@@ -590,6 +602,7 @@
     <property name="IsMelee" type="bool" value="false"/>
     <property name="MaxHealth" type="int" value="20"/>
     <property name="Range" type="float" value="1"/>
+    <property name="name" value="EnemySpawn"/>
    </properties>
   </object>
   <object id="123" x="256" y="384" width="16" height="16">
@@ -602,6 +615,7 @@
     <property name="IsMelee" type="bool" value="false"/>
     <property name="MaxHealth" type="int" value="20"/>
     <property name="Range" type="float" value="1"/>
+    <property name="name" value="EnemySpawn"/>
    </properties>
   </object>
   <object id="124" x="320" y="320" width="16" height="16">
@@ -615,6 +629,7 @@
     <property name="IsMelee" type="bool" value="false"/>
     <property name="MaxHealth" type="int" value="20"/>
     <property name="Range" type="float" value="1"/>
+    <property name="name" value="EnemySpawn"/>
    </properties>
   </object>
  </objectgroup>

@@ -9,16 +9,19 @@ public class LoadMap : MonoBehaviour
 {
   [SerializeField]
   private TextAsset tiledAsset;
+
   [SerializeField]
-  private GameObject objectsLayer;
+  private GameObject enempyPrefab;
 
   private Sprite[] sprites;
   private Dictionary<int, XmlNode> allSpecialTiles;
 
   private int mapWidth, mapHeight, tileSize;
+
   private void Start()
   {
     LoadXml();
+    Debug.Log("HElp");
   }
 
   /// <summary>
@@ -56,38 +59,14 @@ public class LoadMap : MonoBehaviour
     allSpecialTiles = new Dictionary<int, XmlNode>();
 
     foreach (XmlNode node in special)
-    {
       allSpecialTiles.Add(int.Parse(node.Attributes["id"].Value), node);
-    }
 
     foreach (XmlNode objectGroupNode in mapNode.SelectNodes("objectgroup"))
-    {
       BuildObjectGroup(objectGroupNode, tileSize, layerCount);
-    }
   }
 
   /// <summary>
-  /// Builds all the objects on the map
-  /// </summary>
-  /// <param name="xmlNodeList"></param>
-  private void BuildObject(XmlNodeList xmlNodeList)
-  {
-    foreach (XmlNode node in xmlNodeList)
-    {
-      GameObject currentTile = new GameObject();
-      currentTile.transform.parent = objectsLayer.transform;
-      foreach (XmlNode property in node.SelectSingleNode("properties").SelectNodes("property"))
-      {
-        if (property.Attributes["name"].Value == "Type")
-        {
-          AddSpecificStuff(currentTile, property.Attributes["value"].Value);
-        }
-      }
-    }
-  }
-
-  /// <summary>
-  /// Builds non interactable Layer
+  /// Builds non intractable Layer
   /// </summary>
   /// <param name="mapNode"></param>
   /// <param name="mapWidth"></param>
@@ -163,13 +142,10 @@ public class LoadMap : MonoBehaviour
         int gid = int.Parse(node.Attributes["gid"].Value) - 1;
         if (allSpecialTiles.ContainsKey(gid))
         {
-          //Debug.Log("found gid");
           foreach (XmlNode gidNode in allSpecialTiles[gid].SelectSingleNode("properties").SelectNodes("property"))
           {
-            //Debug.Log($"Going though property {gidNode.Attributes["name"].Value}");
             if (gidNode.Attributes["name"].Value == "Type")
             {
-              //Debug.Log("Found Type with value of " + gidNode.Attributes["value"].Value);
               AddSpecificStuff(ingameObject, gidNode.Attributes["value"].Value);
             }
           }
@@ -178,17 +154,62 @@ public class LoadMap : MonoBehaviour
       }
       else
       {
-        string objectType = node.SelectSingleNode("properties").SelectSingleNode("property").Attributes["name"].Value;
-        if (objectType == "playerSpawn")
+        Debug.Log("HElp1");
+        XmlNode properties = node.SelectSingleNode("properties");
+        foreach (XmlNode prop in properties.SelectNodes("property"))
         {
-          GameObject playerSpawnPoint = new GameObject(objectType);
-          playerSpawnPoint.name = "PlayerSpawnPoint";
-          Vector2 objectPosition = new Vector2((float.Parse(node.Attributes["x"].Value) / tileWidth),
-            -(float.Parse(node.Attributes["y"].Value) / tileWidth) + 1);
+          string name = prop.Attributes["name"].Value;
+          Debug.Log(prop);
+          if (name == "playerSpawn")
+          {
+            GameObject playerSpawnPoint = new GameObject(name)
+            {
+              name = "PlayerSpawnPoint"
+            };
+            Vector2 objectPosition = new Vector2((float.Parse(node.Attributes["x"].Value) / tileWidth),
+              -(float.Parse(node.Attributes["y"].Value) / tileWidth) + 1);
 
-          playerSpawnPoint.transform.position = objectPosition;
+            playerSpawnPoint.transform.position = objectPosition;
 
-          GameObject.FindGameObjectWithTag("Player").transform.position = objectPosition;
+            GameObject.FindGameObjectWithTag("Player").transform.position = objectPosition;
+          }
+          else if (name == "EnemySpawn")
+          {
+            Debug.Log("HELP4");
+            Vector2 objectPosition = new Vector2((float.Parse(node.Attributes["x"].Value) / tileWidth),
+              -(float.Parse(node.Attributes["y"].Value) / tileWidth) + 1);
+
+            GameObject enemy = Instantiate(enempyPrefab, objectPosition, Quaternion.identity); enemy.name = "Enemy(Clone)";
+            foreach (XmlNode prop2 in properties.SelectNodes("property"))
+            {
+              if (prop2.Attributes["name"].Value == "Health")
+                enemy.GetComponent<HealthSystem>().Health = int.Parse(prop2.Attributes["value"].Value);
+
+              if (prop2.Attributes["name"].Value == "MaxHealth")
+                enemy.GetComponent<HealthSystem>().healthMax = int.Parse(prop2.Attributes["MaxHealth"].Value);
+
+              EnemyAI ai = enemy.GetComponent<EnemyAI>();
+              if (prop2.Attributes["name"].Value == "AttackTime")
+                ai.attackTime = float.Parse(prop2.Attributes["value"].Value);
+
+              if (prop2.Attributes["name"].Value == "ChaseRange")
+                ai.chaseRange = float.Parse(prop2.Attributes["value"].Value);
+
+              AbstractAttack attack;
+              if (properties.SelectSingleNode("property").Attributes["IsMelee"].Value == bool.TrueString)
+              {
+                attack = enemy.AddComponent<MeleeAttack>();
+              }
+              else
+              {
+                attack = enemy.AddComponent<RangeAttack>();
+              }
+
+              attack.areaOfEffect = float.Parse(properties.SelectSingleNode("property").Attributes["AreaOfEffect"].Value);
+              attack.damage = int.Parse(properties.SelectSingleNode("property").Attributes["Damage"].Value);
+              attack.range = float.Parse(properties.SelectSingleNode("property").Attributes["Range"].Value);
+            }
+          }
         }
       }
     }
