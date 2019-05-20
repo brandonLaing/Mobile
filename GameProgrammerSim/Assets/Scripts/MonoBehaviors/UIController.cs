@@ -18,7 +18,7 @@ public class UIController : MonoBehaviour
   private void Update()
   {
     linesText.text = "Lines Coded: " + Mathf.RoundToInt((float)gameTracker.codePointsEntered);
-    moneyText.text = "$" + Math.Round((float)moneyTracker.money, 2);
+    moneyText.text = "$" + Math.Round((float)moneyTracker.money, 2).ToString("00.00");
   }
   #endregion
 

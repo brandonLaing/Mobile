@@ -197,7 +197,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 100
+  m_fontSize: 89.5
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -584,7 +584,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 100
+  m_fontSize: 82.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -668,10 +668,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1165171776}
+  - component: {fileID: 1165171780}
   - component: {fileID: 1165171779}
   - component: {fileID: 1165171778}
   - component: {fileID: 1165171777}
-  - component: {fileID: 1165171780}
   m_Layer: 5
   m_Name: UpgradesPannel
   m_TagString: Untagged
@@ -749,6 +749,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgrades:
   - {fileID: 11400000, guid: 95c6261b8b0f1cd4a866b3a767484f54, type: 2}
+  - {fileID: 11400000, guid: 98bec1ab0fc2d7b4ba233ca949ba3287, type: 2}
+  - {fileID: 11400000, guid: b78f592a55df5ec4c879ab41f1354445, type: 2}
+  - {fileID: 11400000, guid: 3b4d96f864bbefe498f69a2795daf0f4, type: 2}
   displayer: []
   linesPerSecond: 0
   upgradePrefab: {fileID: 1270040061585324564, guid: 4a1cb241ffcdd5f49aa139cc43b87145,
@@ -774,7 +777,7 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_Spacing: 50
   m_ChildForceExpandWidth: 0
-  m_ChildForceExpandHeight: 0
+  m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
 --- !u!1 &1258483371

@@ -58,7 +58,7 @@ public static class SaveLoadSystem
     {
       bf.Serialize(fs, target);
     }
-    Debug.Log($"Saved {fileName}");
+    //Debug.Log($"Saved {fileName}");
   }
 
   public static T Load<T>(string fileName)
@@ -70,7 +70,7 @@ public static class SaveLoadSystem
       using (FileStream fs = new FileStream(Path.Combine(SaveDirectory, fileName), FileMode.Open))
         returnValue = (T)bf.Deserialize(fs);
 
-      Debug.Log($"Loaded {fileName}");
+      //Debug.Log($"Loaded {fileName}");
       return returnValue;
     }
 

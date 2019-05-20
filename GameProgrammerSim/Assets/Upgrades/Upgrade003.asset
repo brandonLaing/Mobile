@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b607bfb239ae89b45b813dbeea68edcd, type: 3}
-  m_Name: Upgrade001
+  m_Name: Upgrade003
   m_EditorClassIdentifier: 
-  upgradeName: Steve Jobs Forced Coding Sauna
-  startingCost: 25
-  increaseStep: 8
+  upgradeName: BattleBorn HQ
+  startingCost: 65
+  increaseStep: 15
   currentUpgradeCount: 0
   maxUpgrades: 50
   effect: 1
-  effectValue: 10
+  effectValue: 50

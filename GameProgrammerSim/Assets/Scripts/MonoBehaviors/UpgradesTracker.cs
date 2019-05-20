@@ -26,6 +26,7 @@ public class UpgradesTracker : MonoBehaviour
     {
       GameObject displayer = Instantiate(upgradePrefab, this.transform);
       displayer.GetComponent<UpgradeDisplayer>().upgrade = upgrade;
+      displayer.GetComponent<UpgradeDisplayer>().tracker = this;
     }
 
     UpgradeAdded();
@@ -38,8 +39,6 @@ public class UpgradesTracker : MonoBehaviour
 
   private void Update()
   {
-    Debug.Log((linesPerSecond / 60.0F) * Time.deltaTime);
-
     tracker._AddCodePoints((linesPerSecond / 60.0F) * Time.deltaTime);
   }
   #endregion
@@ -53,7 +52,7 @@ public class UpgradesTracker : MonoBehaviour
       switch (upgrade.effect)
       {
         case UpgradeEffect.LinesPerSecond:
-          linesPerSecond += upgrade.effectValue;
+          linesPerSecond += upgrade.effectValue * upgrade.CurrentEffectCount;
           break;
       }
     }

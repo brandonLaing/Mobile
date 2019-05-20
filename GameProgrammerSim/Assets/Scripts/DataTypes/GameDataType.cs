@@ -76,8 +76,8 @@ public class GameDataType
     get { return _codePointsMax; }
     set
     {
-      if (value < 0)
-        _codePointsMax = 0;
+      if (value <= 0)
+        _codePointsMax = 1;
       else
         _codePointsMax = value;
     }
@@ -88,8 +88,8 @@ public class GameDataType
     get { return _designPointsMax; }
     set
     {
-      if (value < 0)
-        _designPointsMax = 0;
+      if (value <= 0)
+        _designPointsMax = 1;
       else
         _designPointsMax = value;
     }
@@ -100,8 +100,8 @@ public class GameDataType
     get { return _artPointsMax; }
     set
     {
-      if (value < 0)
-        _artPointsMax = 0;
+      if (value <= 0)
+        _artPointsMax = 1;
       else
         _artPointsMax = value;
     }

@@ -15,6 +15,7 @@ public class GameTracker : MonoBehaviour
   public double artPointsEntered;
 
   private string currentGameKey = "currentGame";
+  [SerializeField]
   private GameDataType currentGame = null;
   #endregion
 
@@ -36,9 +37,9 @@ public class GameTracker : MonoBehaviour
   #region Functions
   public void LoadInfo()
   {
-    codePointsEntered = SaveLoadSystem.Load<int>(codePointsKey);
-    designPointsEntered = SaveLoadSystem.Load<int>(designPointsKey);
-    artPointsEntered = SaveLoadSystem.Load<int>(artPointsKey);
+    codePointsEntered = SaveLoadSystem.Load<double>(codePointsKey);
+    designPointsEntered = SaveLoadSystem.Load<double>(designPointsKey);
+    artPointsEntered = SaveLoadSystem.Load<double>(artPointsKey);
 
     currentGame = SaveLoadSystem.Load<GameDataType>(currentGameKey);
   }
@@ -61,10 +62,10 @@ public class GameTracker : MonoBehaviour
   {
     currentGame.ReleaseGame((int)codePointsEntered, (int)designPointsEntered, (int)artPointsEntered);
     MoneyTracker.main.AddGame(currentGame);
-    currentGame = new GameDataType(1000, 1, 1, Random.Range(1.0F, 100.0F));
     codePointsEntered = 0;
     designPointsEntered = 0;
     artPointsEntered = 0;
+    currentGame = new GameDataType(1000, 1, 1, Random.Range(1.0F, 100.0F));
   }
 
   public void _AddCodePoints(double points)

@@ -17,7 +17,13 @@ public class UpgradeDisplayer : MonoBehaviour
   public TextMeshProUGUI cost;
   #endregion
 
+  private MoneyTracker mt;
+
   #region Mono Behavior Functions
+  private void Start()
+  {
+    mt = FindObjectOfType<MoneyTracker>();
+  }
   private void Update()
   {
     upgradeName.text = upgrade.name;
@@ -31,8 +37,10 @@ public class UpgradeDisplayer : MonoBehaviour
   #region Functions
   public void _DoUpgrade()
   {
-    if (upgrade.currentUpgradeCount < upgrade.maxUpgrades)
+    if (upgrade.currentUpgradeCount < upgrade.maxUpgrades && upgrade.CurrentCost <= mt.money)
     {
+      mt.money -= upgrade.CurrentCost;
+
       upgrade.currentUpgradeCount++;
       tracker.UpgradeAdded();
     }
