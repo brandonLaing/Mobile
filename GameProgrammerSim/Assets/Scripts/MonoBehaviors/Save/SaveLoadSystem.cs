@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using System;
 
-public class SaveLoadSystem : MonoBehaviour
+public static class SaveLoadSystem
 {
   public static string saveName = "default";
   private static string SaveDirectory
@@ -18,6 +19,29 @@ public class SaveLoadSystem : MonoBehaviour
     }
   }
 
+  public static DateTime TimeSinceLastSave
+  {
+    get
+    {
+      int day = Load<int>(dayKey);
+      int month = Load<int>(monthKey);
+      int year = Load<int>(yearkey);
+
+      return new DateTime(year, month, day);
+    }
+  }
+
+  static string dayKey = "day";
+  static string monthKey = "month";
+  static string yearkey = "year";
+
+  public static void GameExited()
+  {
+    Save(DateTime.Now.Day, dayKey);
+    Save(DateTime.Now.Month, monthKey);
+    Save(DateTime.Now.Year, yearkey);
+  }
+
   /// <summary>
   /// Saves serilizable file to memory
   /// </summary>
@@ -26,6 +50,9 @@ public class SaveLoadSystem : MonoBehaviour
   /// <param name="fileName">Name of requested file including the extention</param>
   public static void Save<T>(T target, string fileName)
   {
+    if (fileName.Trim() == string.Empty)
+      throw new System.Exception("Save file name can not be empty");
+
     BinaryFormatter bf = new BinaryFormatter();
     using (FileStream fs = new FileStream(Path.Combine(SaveDirectory, fileName), FileMode.Create))
     {

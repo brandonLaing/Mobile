@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b607bfb239ae89b45b813dbeea68edcd, type: 3}
   m_Name: Upgrade001
   m_EditorClassIdentifier: 
-  upgradeName: DefaultUpgrade
-  startingCost: 1
-  increaseStep: 1
-  currentUpgradeCount: 0
-  maxUpgrades: 0
+  upgradeName: Steve Jobs Coding Summer Camp
+  startingCost: 25
+  increaseStep: 8
+  currentUpgradeCount: 10
+  maxUpgrades: 10
   effect: 1
+  effectValue: 10

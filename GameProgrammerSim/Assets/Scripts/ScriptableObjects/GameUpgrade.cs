@@ -13,11 +13,12 @@ public class GameUpgrade : ScriptableObject
   [Header("Cost")]
   public int startingCost = 1;
   public int increaseStep = 1;
-  public int CurrentCost
+
+  public decimal CurrentCost
   {
     get
     {
-      return Mathf.RoundToInt(increaseStep + Mathf.Log(currentUpgradeCount + 1) + startingCost);
+      return increaseStep * (decimal)Mathf.Log(currentUpgradeCount + 1) + startingCost;
     }
   }
 
@@ -27,4 +28,12 @@ public class GameUpgrade : ScriptableObject
 
   [Header("Effect")]
   public UpgradeEffect effect = UpgradeEffect.LinesPerSecond;
+  public int effectValue;
+  public int CurrentEffectCount
+  {
+    get
+    {
+      return effectValue * currentUpgradeCount;
+    }
+  }
 }
